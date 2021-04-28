@@ -29,27 +29,35 @@ var currentsApi = {
 var parallelDots = {
   apiKey: "7ES25jNlQY5RISQu4JW2SuFWC6w6QWobpHxoOuuBPLk",
   url: "https://apis.paralleldots.com/v4/sentiment",
+  bulkUrl: "https://apis.paralleldots.com/v4/sentiment_batch",
 
   getSentimentQuery: function () {
     return this.url;
   },
 
+  getSentimentBulkQuery: function () {
+    return this.bulkUrl;
+  },
+
+  getSentimentParametersBulk: function (arrayText) {
+    var fetchOptions = {};
+    fetchOptions.method = "POST";
+
+    var formData = new FormData();
+    formData.append("text", JSON.stringify(arrayText));
+    formData.append("api_key", this.apiKey);
+    formData.append("lang_code", "en");
+
+    fetchOptions.body = formData;
+
+    return fetchOptions;
+  },
+
   getSentimentParameters: function (queryText) {
     var fetchOptions = {};
     fetchOptions.method = "POST";
-    //fetchOptions.headers = {
-    //  "Content-type": "application/json; charset=UTF-8",
-    //};
-    //fetchOptions.query = {};
-
-    //fetchOptions.query.text = JSON.stringify(queryText);
-    //fetchOptions.query.text = "Mary had a little lamb";
-
-    //fetchOptions.query.api_key = this.apiKey;
-    //fetchOptions.query.lang_code = "en";
 
     var formData = new FormData();
-    //formData.append("text", JSON.stringify(queryText));
     formData.append("text", queryText);
     formData.append("api_key", this.apiKey);
     formData.append("lang_code", "en");
@@ -94,7 +102,38 @@ var getSentimentForTextString = function (queryText) {
 };
 
 var getSentimentBulk = function (textArray) {
-  sentiment = getSentimentForTextString(textArray);
+  var sentimentUrl = parallelDots.getSentimentBulkQuery();
+  var sentimentOptions = parallelDots.getSentimentParametersBulk(textArray);
+
+  console.log("getSentimentBulk START...");
+
+  fetch(sentimentUrl, sentimentOptions).then(function (sentimentResponse) {
+    if (sentimentResponse.ok) {
+      sentimentResponse.json().then(function (sentimentData) {
+        console.log("----- Query Text ------");
+        console.log("   " + textArray.length + " items");
+        console.log("----- Sentiment Data ------");
+        console.log(sentimentData.sentiment);
+        console.log("---------------------------");
+        return sentimentData.sentiment;
+      });
+    } else {
+      // had a problem
+      console.log("----- Query Text ------");
+      console.log("   " + textArray.length + " items");
+      console.log(
+        "   ERROR -> response status -> " + sentimentResponse.statusText
+      );
+      console.log("---------------------------");
+      // return empty sentiment data;
+      var sentimentResult = {};
+      sentimentResult.positive = 0.0;
+      sentimentResult.negative = 0.0;
+      sentimentResult.neutral = 0.0;
+
+      return sentimentResult;
+    }
+  });
 };
 
 var getSentimentByIteration = function (textArray) {
