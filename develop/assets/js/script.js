@@ -49,7 +49,8 @@ var parallelDots = {
     //fetchOptions.query.lang_code = "en";
 
     var formData = new FormData();
-    formData.append("text", JSON.stringify(queryText));
+    //formData.append("text", JSON.stringify(queryText));
+    formData.append("text", queryText);
     formData.append("api_key", this.apiKey);
     formData.append("lang_code", "en");
 
@@ -59,14 +60,12 @@ var parallelDots = {
   },
 };
 
-var getSentimentForTextString = async function (queryText) {
+var getSentimentForTextString = function (queryText) {
   // returns a sentiment array for the given query text
   var sentimentUrl = parallelDots.getSentimentQuery();
   var sentimentOptions = parallelDots.getSentimentParameters(queryText);
 
-  await fetch(sentimentUrl, sentimentOptions).then(function (
-    sentimentResponse
-  ) {
+  fetch(sentimentUrl, sentimentOptions).then(function (sentimentResponse) {
     if (sentimentResponse.ok) {
       sentimentResponse.json().then(function (sentimentData) {
         console.log("----- Query Text ------");
@@ -91,6 +90,18 @@ var getSentimentForTextString = async function (queryText) {
 
       return sentimentResult;
     }
+  });
+};
+
+var getSentimentBulk = function (textArray) {
+  sentiment = getSentimentForTextString(textArray);
+};
+
+var getSentimentByIteration = function (textArray) {
+  textArray.forEach(function (textItem) {
+    var thisResult = {};
+    thisResult.queryText = textItem;
+    thisResult.sentiment = getSentimentForTextString(textItem);
   });
 };
 
@@ -131,11 +142,9 @@ var getNews = function () {
 
         // now get sentiment of each item
         sentimentResults = [];
-        textArray.forEach(function (textItem) {
-          var thisResult = {};
-          thisResult.queryText = textItem;
-          thisResult.sentiment = getSentimentForTextString(textItem);
-        });
+
+        //getSentimentByIteration(textArray);
+        getSentimentBulk(textArray);
       });
     } else {
       console.log(
