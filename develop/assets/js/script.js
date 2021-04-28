@@ -16,6 +16,15 @@ var mediaStack = {
   },
 };
 
+var currentsApi = {
+  apiKey: "pqlXoMwbO6xGnewLW6Hf_tECeZ-U2u5T8E8u-SE-XwoCEdYO",
+  url: "https://api.currentsapi.services/v1/latest-news?language=en&apiKey=",
+
+  getCurrentNewsQuery: function () {
+    return this.url + this.apiKey;
+  },
+};
+
 // variable to hold parallel dots api info
 var parallelDots = {
   apiKey: "7ES25jNlQY5RISQu4JW2SuFWC6w6QWobpHxoOuuBPLk",
@@ -101,7 +110,9 @@ var getNewsDescriptionArray = function (newsDataArray) {
 var getNews = function () {
   console.log("getNews START...");
 
-  var mediaUrl = mediaStack.getCurrentNewsQuery();
+  //var mediaUrl = mediaStack.getCurrentNewsQuery();
+  var mediaUrl = currentsApi.getCurrentNewsQuery();
+
   console.log("    going to fetch -> " + mediaUrl);
 
   fetch(mediaUrl).then(function (response) {
@@ -113,7 +124,7 @@ var getNews = function () {
         console.log("---------------------------");
 
         // now get an array of descriptions, to send for sentiment analysis
-        var textArray = getNewsDescriptionArray(responseData.data);
+        var textArray = getNewsDescriptionArray(responseData.news);
         //console.log("------- Text Array --------");
         //console.log(textArray);
         //console.log("---------------------------");
