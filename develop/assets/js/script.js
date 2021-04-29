@@ -1,3 +1,11 @@
+////------------------------------------------------------
+////  API SECTION
+////
+////  This section of code implements API functionality
+////
+////
+//// ------------------------------------------------------
+
 // array to hold sentiment results
 var sentimentResults = [];
 
@@ -193,6 +201,12 @@ var getNews = function () {
     }
   });
 };
+
+/// this is master api call
+var getCurrentNewsAndSentimentFromApi = function() {
+  console.log("getCurrentNewsAndSentimentFromApi");
+
+},
 
 // get news button is clicked
 $("#news-button").on("click", getNews);
