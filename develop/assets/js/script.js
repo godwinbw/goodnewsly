@@ -302,6 +302,7 @@ var sanitizeKeywordQuery = function (keywordQuery) {
 ///
 /// CALL THESE FUNCTIONS TO USE THE APIs
 ///
+///
 
 var getCurrentNewsAndSentimentFromApi = function () {
   return new Promise(function (resolve, reject) {
