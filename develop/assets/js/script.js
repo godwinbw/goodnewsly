@@ -200,7 +200,7 @@ var getSentimentBulk = function (news) {
                 news[i].sentiment = sentimentData.sentiment[i];
                 if (goodnewsScore == -10) {
                   news[i].good_news_score = goodnewsScore;
-                  news[i].valid_good_news_score = true;
+                  news[i].valid_good_news_score = false;
                 } else {
                   // this is a valid good news score
                   news[i].good_news_score = goodnewsScore;
@@ -208,6 +208,20 @@ var getSentimentBulk = function (news) {
                 }
               }
             }
+
+            // now sort the news array by good news score
+            news.sort(function (a, b) {
+              if (a.good_news_score > b.good_news_score) {
+                // if a > b return -1;
+                return -1;
+              } else if (a.good_news_score < b.good_news_score) {
+                // if a < b return 1;
+                return 1;
+              } else {
+                // if a = b return 0;
+                return 0;
+              }
+            });
 
             //console.log("----- News + Sentiment Data ------");
             //console.log(news);
