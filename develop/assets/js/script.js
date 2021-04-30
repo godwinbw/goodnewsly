@@ -1,58 +1,113 @@
 ////------------------------------------------------------
-////  API SECTION
+////  API SECTION START
 ////
 ////  This section of code implements API functionality
 ////
 ////
+////  Four function calls:
+////
+////  getCurrentNewsAndSentimentFromApi()
+////        - retrieves current news stories
+////
+////  getCurrentNewsAndSentimentFromApiByKeyword(keyworkQuery)
+////        - retrieves current news stories that match keyworkQuery
+////        - keywordQuery is a keyword string eg "ambulance"
+////
+////  getCurrentNewsAndSentimentFromApiByCategories(categoryArray)
+////        - retrieves current news stories that match categoryArray
+////        - categoryArray is string array, eg ["sports", "technology"]
+////
+////   getCurrentNewsAndSentimentFromApiByKeywordAndCategory(keywordQuery, categoryArray)
+////        - arguments are same format as the other functions
+////
+////    All these functions are Promise-based asynchronous functions
+////    Call them like this:
+////
+////        getCurrentNewsAndSentimentFromApi()
+////             .then(data => console.log(data))
+////             .catch(error => console.log(error));
+////
+////
+////    sentiment data is an object where score is 0.0 to 1.0 in three categoreis negative, neutral, and positive
+////        - eg.  {negative: 0.589, neutral: 0.249, positive: 0.162}
+////        - we do min-max scaling on the sentiment to do a "goodnews-score" in the range -1.0 to 1.0
+////        - valid-good-news-score will be set to TRUE if there is a valid goodnews-score, otherwise set to FALSE
+////
 //// ------------------------------------------------------
 
-// array to hold sentiment results
-var sentimentResults = [];
+// helper function to pass error info back to caller
+var getErrorStatus = function (errorName, errorMessage) {
+  // builds a data structure of instanceof(Error)
+  // for the return object
+  var errorStatus = new Error();
+  errorStatus.name = errorName;
+  errorStatus.message = errorMessage;
 
-// variable to hold media stack api info
-var mediaStack = {
-  apiKey: "afb878e1a1d59a5a7767169581962ec9",
-  url: "http://api.mediastack.com/v1/",
-
-  getCurrentNewsQuery: function () {
-    return (
-      this.url +
-      "news?access_key=" +
-      this.apiKey +
-      "&languages=en&countries=us&limit=25"
-    );
-  },
+  return errorStatus;
 };
 
 var currentsApi = {
   apiKey: "pqlXoMwbO6xGnewLW6Hf_tECeZ-U2u5T8E8u-SE-XwoCEdYO",
-  url: "https://api.currentsapi.services/v1/latest-news?language=en&apiKey=",
+  latestNewsEndpoint: "https://api.currentsapi.services/v1/latest-news",
+  searchEndpoint: "https://api.currentsapi.services/v1/search",
 
   getCurrentNewsQuery: function () {
-    return this.url + this.apiKey;
+    return this.latestNewsEndpoint + "?language=en&apiKey=" + this.apiKey;
+  },
+
+  getKeywordQuery: function (keywordQuery) {
+    return (
+      this.searchEndpoint +
+      "?language=en&apiKey=" +
+      this.apiKey +
+      "&keywords=" +
+      keywordQuery
+    );
+  },
+
+  getCategoryQuery: function (categoryQuery) {
+    return (
+      this.searchEndpoint +
+      "?language=en&apiKey=" +
+      this.apiKey +
+      "&category=" +
+      categoryQuery
+    );
+  },
+
+  getKeywordAndCategoryQuery: function (keywordQuery, categoryQuery) {
+    return (
+      this.searchEndpoint +
+      "?language=en&apiKey=" +
+      this.apiKey +
+      "&category=" +
+      categoryQuery +
+      "&keywords=" +
+      keywordQuery
+    );
   },
 };
 
 // variable to hold parallel dots api info
 var parallelDots = {
   apiKey: "7ES25jNlQY5RISQu4JW2SuFWC6w6QWobpHxoOuuBPLk",
-  url: "https://apis.paralleldots.com/v4/sentiment",
-  bulkUrl: "https://apis.paralleldots.com/v4/sentiment_batch",
+  sentimentEndpoint: "https://apis.paralleldots.com/v4/sentiment",
+  sentimentBulkEndpoint: "https://apis.paralleldots.com/v4/sentiment_batch",
 
   getSentimentQuery: function () {
-    return this.url;
+    return this.sentimentEndpoint;
   },
 
   getSentimentBulkQuery: function () {
-    return this.bulkUrl;
+    return this.sentimentBulkEndpoint;
   },
 
-  getSentimentParametersBulk: function (arrayText) {
+  getSentimentBulkParameters: function (queryArray) {
     var fetchOptions = {};
     fetchOptions.method = "POST";
 
     var formData = new FormData();
-    formData.append("text", JSON.stringify(arrayText));
+    formData.append("text", JSON.stringify(queryArray));
     formData.append("api_key", this.apiKey);
     formData.append("lang_code", "en");
 
@@ -76,82 +131,6 @@ var parallelDots = {
   },
 };
 
-var getSentimentForTextString = function (queryText) {
-  // returns a sentiment array for the given query text
-  var sentimentUrl = parallelDots.getSentimentQuery();
-  var sentimentOptions = parallelDots.getSentimentParameters(queryText);
-
-  fetch(sentimentUrl, sentimentOptions).then(function (sentimentResponse) {
-    if (sentimentResponse.ok) {
-      sentimentResponse.json().then(function (sentimentData) {
-        console.log("----- Query Text ------");
-        console.log(queryText);
-        console.log(sentimentData.sentiment);
-        console.log("---------------------------");
-        return sentimentData.sentiment;
-      });
-    } else {
-      // had a problem
-      console.log("----- Query Text ------");
-      console.log(queryText);
-      console.log(
-        "   ERROR -> response status -> " + sentimentResponse.statusText
-      );
-      console.log("---------------------------");
-      // return empty sentiment data;
-      var sentimentResult = {};
-      sentimentResult.positive = 0.0;
-      sentimentResult.negative = 0.0;
-      sentimentResult.neutral = 0.0;
-
-      return sentimentResult;
-    }
-  });
-};
-
-var getSentimentBulk = function (textArray) {
-  var sentimentUrl = parallelDots.getSentimentBulkQuery();
-  var sentimentOptions = parallelDots.getSentimentParametersBulk(textArray);
-
-  console.log("getSentimentBulk START...");
-
-  fetch(sentimentUrl, sentimentOptions).then(function (sentimentResponse) {
-    if (sentimentResponse.ok) {
-      sentimentResponse.json().then(function (sentimentData) {
-        console.log("----- Query Text ------");
-        console.log("   " + textArray.length + " items");
-        console.log("----- Sentiment Data ------");
-        console.log(sentimentData.sentiment);
-        console.log("---------------------------");
-        return sentimentData.sentiment;
-      });
-    } else {
-      // had a problem
-      console.log("----- Query Text ------");
-      console.log("   " + textArray.length + " items");
-      console.log(
-        "   ERROR -> response status -> " + sentimentResponse.statusText
-      );
-      console.log("---------------------------");
-      // return empty sentiment data;
-      var sentimentResult = {};
-      sentimentResult.positive = 0.0;
-      sentimentResult.negative = 0.0;
-      sentimentResult.neutral = 0.0;
-
-      return sentimentResult;
-    }
-  });
-};
-
-var getSentimentByIteration = function (textArray) {
-  textArray.forEach(function (textItem) {
-    var thisResult = {};
-    thisResult.queryText = textItem;
-    thisResult.sentiment = getSentimentForTextString(textItem);
-  });
-};
-
 var getNewsDescriptionArray = function (newsDataArray) {
   // take the news data array, and build an array of the descriptions
   var textArray = [];
@@ -160,53 +139,394 @@ var getNewsDescriptionArray = function (newsDataArray) {
     textArray.push(newsItem.title);
   });
 
-  console.log("   created a textArray with " + textArray.length + " items");
+  //console.log("   created a textArray with " + textArray.length + " items");
   return textArray;
 };
 
-// gets the current news
-var getNews = function () {
-  console.log("getNews START...");
+var getGoodNewsScore = function (sentiment) {
+  // sentiment is object in form
+  // {negative: 0.589, neutral: 0.249, positive: 0.162}
+  //
+  if (sentiment.positive && sentiment.negative && sentiment.neutral) {
+    return (
+      sentiment.positive * 1.0 +
+      sentiment.neutral * 0.0 +
+      sentiment.negative * -1.0
+    );
+  } else {
+    // indicates that the good news score is not valid
+    return -10;
+  }
+};
 
-  //var mediaUrl = mediaStack.getCurrentNewsQuery();
-  var mediaUrl = currentsApi.getCurrentNewsQuery();
+var getSentimentBulk = function (news) {
+  return new Promise(function (resolve, reject) {
+    //console.log("getSentimentBulk START...");
 
-  console.log("    going to fetch -> " + mediaUrl);
+    var textArray = getNewsDescriptionArray(news);
+    var sentimentUrl = parallelDots.getSentimentBulkQuery();
+    var sentimentOptions = parallelDots.getSentimentBulkParameters(textArray);
+    var goodnewsScore;
 
-  fetch(mediaUrl).then(function (response) {
-    if (response.ok) {
-      // we got the data
-      response.json().then(function (responseData) {
-        console.log("------- News Data ---------");
-        console.log(responseData);
-        console.log("---------------------------");
+    fetch(sentimentUrl, sentimentOptions)
+      .then(function (sentimentResponse) {
+        if (sentimentResponse.ok) {
+          sentimentResponse.json().then(function (sentimentData) {
+            //console.log("----- Query Text ------");
+            //console.log("   " + textArray.length + " items");
+            //console.log("----- Sentiment Data ------");
+            //console.log("   " + sentimentData.sentiment.length + " items");
+            //console.log(sentimentData.sentiment);
+            //console.log("---------------------------");
 
-        // now get an array of descriptions, to send for sentiment analysis
-        var textArray = getNewsDescriptionArray(responseData.news);
-        //console.log("------- Text Array --------");
-        //console.log(textArray);
-        //console.log("---------------------------");
+            console.log(
+              "...got " + sentimentData.sentiment.length + " sentiment scores"
+            );
 
-        // now get sentiment of each item
-        sentimentResults = [];
+            // need to add sentiment data to news
+            for (var i = 0; i < sentimentData.sentiment.length; i++) {
+              //get the goodnews score for this element
+              //console.log(
+              //  "...getting goodnews score for index " +
+              //    i +
+              //   "item -> " +
+              //    JSON.stringify(sentimentData.sentiment[i])
+              //);
 
-        //getSentimentByIteration(textArray);
-        getSentimentBulk(textArray);
+              goodnewsScore = getGoodNewsScore(sentimentData.sentiment[i]);
+
+              // if this index exists in news, add them item and good news score to the news array
+              if (!(typeof news[i] === "undefined")) {
+                news[i].sentiment = sentimentData.sentiment[i];
+                if (goodnewsScore == -10) {
+                  news[i].good_news_score = goodnewsScore;
+                  news[i].valid_good_news_score = true;
+                } else {
+                  // this is a valid good news score
+                  news[i].good_news_score = goodnewsScore;
+                  news[i].valid_good_news_score = true;
+                }
+              }
+            }
+
+            //console.log("----- News + Sentiment Data ------");
+            //console.log(news);
+            //console.log("----------------------------------");
+
+            // return the update news array
+            resolve(news);
+          });
+        } else {
+          // the response code was not ok
+          console.log(
+            "....sentiment fetch failed, response status -> " + response.status
+          );
+
+          var errorMessage = response.status + " - " + response.statusText;
+          reject(getErrorStatus("News fetch failed", errorMessage));
+        }
+      })
+      .catch(function (error) {
+        //likely had a network error
+        console.log(
+          "....sentiment fetch failed, error message -> " + error.message
+        );
+        reject(error);
       });
-    } else {
-      console.log(
-        "   ...had a problem with news fetch, response status -> " +
-          response.statusText
-      );
-    }
   });
 };
 
-/// this is master api call
-var getCurrentNewsAndSentimentFromApi = function() {
-  console.log("getCurrentNewsAndSentimentFromApi");
+// gets the current news
+var getNews = function (newsQueryUrl) {
+  return new Promise(function (resolve, reject) {
+    console.log("getNews START...");
 
-},
+    console.log("fetchURL -> " + newsQueryUrl);
+
+    fetch(newsQueryUrl)
+      .then(function (response) {
+        if (response.ok) {
+          // we got the data
+          response.json().then(function (responseData) {
+            //console.log("------- News Data ---------");
+            //console.log(responseData);
+            //console.log("---------------------------");
+            //console.log("------- Text Array --------");
+            //console.log(textArray);
+            //console.log("---------------------------");
+            console.log("...got " + responseData.news.length + " news stories");
+
+            getSentimentBulk(responseData.news)
+              .then(function (sentimentResult) {
+                resolve(sentimentResult);
+              })
+              .catch(function (error) {
+                reject(error);
+              });
+          });
+        } else {
+          // the response code was not ok
+          console.log(
+            "....fetch failed, response status -> " + response.status
+          );
+
+          var errorMessage = response.status + " - " + response.statusText;
+          reject(getErrorStatus("News fetch failed", errorMessage));
+        }
+      })
+      .catch(function (error) {
+        // most likely a network error occured
+        console.log("....fetch failed, error message -> " + error.message);
+        reject(error);
+      });
+  });
+};
+
+var sanitizeKeywordQuery = function (keywordQuery) {
+  /// sanitize the keyword query to replace spaces with '+' symbol
+  /// and remove any special characters
+
+  // first, replace multiple consecutive whitespace with a "+"
+  var keywordSpacesReplaced = keywordQuery.replace(/\s\s+/g, "+");
+
+  var keywordSpecialCharsReplaced = keywordSpacesReplaced.replace(
+    /[&\/\\#,+()$~%.'":*?<>{}]/g,
+    ""
+  );
+
+  //console.log("original keywords -> " + keywordQuery);
+  //console.log("new keywords      -> " + keywordSpecialCharsReplaced);
+
+  return keywordSpecialCharsReplaced;
+};
+///
+/// CALL THESE FUNCTIONS TO USE THE APIs
+///
+
+var getCurrentNewsAndSentimentFromApi = function () {
+  return new Promise(function (resolve, reject) {
+    console.log("---- PROMISE START ----------------------");
+    console.log("getCurrentNewsAndSentimentFromApi");
+    getNews(currentsApi.getCurrentNewsQuery())
+      .then(function (result) {
+        console.log("---- PROMISE RESOLVED ----------------------");
+        resolve(result);
+      })
+      .catch(function (error) {
+        console.log("---- PROMISE REJECTED ----------------------");
+        reject(error);
+      });
+  });
+};
+
+var getCurrentNewsAndSentimentFromApiByKeyword = function (keywordQuery) {
+  return new Promise(function (resolve, reject) {
+    console.log("---- PROMISE START ----------------------");
+    console.log("getCurrentNewsAndSentimentFromApiByKeyword");
+    var sanitizedKeyword = sanitizeKeywordQuery(keywordQuery);
+    console.log("keywords -> " + sanitizedKeyword);
+
+    getNews(currentsApi.getKeywordQuery(sanitizedKeyword))
+      .then(function (result) {
+        console.log("---- PROMISE RESOLVED ----------------------");
+        resolve(result);
+      })
+      .catch(function (error) {
+        console.log("---- PROMISE REJECTED ----------------------");
+        reject(error);
+      });
+  });
+};
+
+var getCurrentNewsAndSentimentFromApiByCategory = function (categoryArray) {
+  return new Promise(function (resolve, reject) {
+    console.log("---- PROMISE START ----------------------");
+    console.log("getCurrentNewsAndSentimentFromApiByCategory");
+    console.log("categories -> " + categoryArray.join());
+
+    getNews(currentsApi.getCategoryQuery(categoryArray.join()))
+      .then(function (result) {
+        console.log("---- PROMISE RESOLVED ----------------------");
+        resolve(result);
+      })
+      .catch(function (error) {
+        console.log("---- PROMISE REJECTED ----------------------");
+        reject(error);
+      });
+  });
+};
+
+var getCurrentNewsAndSentimentFromApiByKeywordAndCategory = function (
+  keywordQuery,
+  categoryArray
+) {
+  return new Promise(function (resolve, reject) {
+    console.log("---- PROMISE START ----------------------");
+    console.log("getCurrentNewsAndSentimentFromApiByKeywordAndCategory");
+    var sanitizedKeyword = sanitizeKeywordQuery(keywordQuery);
+    console.log("keywords -> " + sanitizedKeyword);
+    console.log("categories -> " + categoryArray.join());
+
+    getNews(
+      currentsApi.getKeywordAndCategoryQuery(
+        sanitizedKeyword,
+        categoryArray.join()
+      )
+    )
+      .then(function (result) {
+        console.log("---- PROMISE RESOLVED ----------------------");
+        resolve(result);
+      })
+      .catch(function (error) {
+        console.log("---- PROMISE REJECTED ----------------------");
+        reject(error);
+      });
+  });
+};
+
+////------------------------------------------------------
+////
+////  API SECTION END
+////
+////------------------------------------------------------
+
+//// -----------------------------------------------------
+////
+////  TEST SECTION START
+////
+////  these functions test the api calls with various input data
+////
+//// -----------------------------------------------------
+
+var newsButtonClicked = function () {
+  console.log("=========================================");
+  console.log("newsButtonClicked");
+  getCurrentNewsAndSentimentFromApi()
+    .then(function (result) {
+      console.log(result);
+      console.log("newsButtonClicked SUCCESS");
+      console.log("=========================================");
+    })
+    .catch(function (error) {
+      console.log(error);
+      console.log("newsButtonClicked ERROR");
+      console.log("=========================================");
+    });
+};
+
+var newsKeywordSearchClicked = function () {
+  console.log("=========================================");
+  console.log("newsKeywordSearchClicked");
+  getCurrentNewsAndSentimentFromApiByKeyword("basketball")
+    .then(function (result) {
+      console.log(result);
+      console.log("newsButtonClicked SUCCESS");
+      console.log("=========================================");
+    })
+    .catch(function (error) {
+      console.log(error);
+      console.log("newsButtonClicked ERROR");
+      console.log("=========================================");
+    });
+};
+
+var newsSingleCategorySearchClicked = function () {
+  console.log("=========================================");
+  console.log("newsSingleCategorySearchClicked");
+  getCurrentNewsAndSentimentFromApiByCategory(["television"])
+    .then(function (result) {
+      console.log(result);
+      console.log("newsSingleCategorySearchClicked SUCCESS");
+      console.log("=========================================");
+    })
+    .catch(function (error) {
+      console.log(error);
+      console.log("newsSingleCategorySearchClicked ERROR");
+      console.log("=========================================");
+    });
+};
+
+var newsMultiCategorySearchClicked = function () {
+  console.log("=========================================");
+  console.log("newsMultiCategorySearchClicked");
+
+  getCurrentNewsAndSentimentFromApiByCategory([
+    "television",
+    "finance",
+    "politics",
+  ])
+    .then(function (result) {
+      console.log(result);
+      console.log("newsMultiCategorySearchClicked SUCCESS");
+      console.log("=========================================");
+    })
+    .catch(function (error) {
+      console.log(error);
+      console.log("newsMultiCategorySearchClicked ERROR");
+      console.log("=========================================");
+    });
+};
+
+var newsKeywordAndSingleCategorySearchClicked = function () {
+  console.log("=========================================");
+  console.log("newsKeywordAndSingleCategorySearchClicked");
+  getCurrentNewsAndSentimentFromApiByKeywordAndCategory("basketball", [
+    "sports",
+  ])
+    .then(function (result) {
+      console.log(result);
+      console.log("newsKeywordAndSingleCategorySearchClicked SUCCESS");
+      console.log("=========================================");
+    })
+    .catch(function (error) {
+      console.log(error);
+      console.log("newsKeywordAndSingleCategorySearchClicked ERROR");
+      console.log("=========================================");
+    });
+};
+
+var newsKeywordAndMultiCategorySearchClicked = function () {
+  console.log("=========================================");
+  console.log("newsKeywordAndMultiCategorySearchClicked");
+  getCurrentNewsAndSentimentFromApiByKeywordAndCategory("basketball", [
+    "sports",
+    "finance",
+    "politics",
+  ])
+    .then(function (result) {
+      console.log(result);
+      console.log("newsKeywordAndMultiCategorySearchClicked SUCCESS");
+      console.log("=========================================");
+    })
+    .catch(function (error) {
+      console.log(error);
+      console.log("newsKeywordAndMultiCategorySearchClicked ERROR");
+      console.log("=========================================");
+    });
+};
+
+/// these are bindings to button clicked handlers;
 
 // get news button is clicked
-$("#news-button").on("click", getNews);
+$("#news-button").on("click", newsButtonClicked);
+
+// keyword search is clicked
+$("#news-keyword-search").on("click", newsKeywordSearchClicked);
+
+// single category search
+$("#news-single-category-search").on("click", newsSingleCategorySearchClicked);
+
+// multiple category search
+$("#news-multi-category-search").on("click", newsMultiCategorySearchClicked);
+
+// keyword and single category search
+$("#news-keyword-and-single-category-search").on(
+  "click",
+  newsKeywordAndSingleCategorySearchClicked
+);
+
+// keyword and multiple category search
+$("#news-keyword-and-multi-category-search").on(
+  "click",
+  newsKeywordAndMultiCategorySearchClicked
+);
