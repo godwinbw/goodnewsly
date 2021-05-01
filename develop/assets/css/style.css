@@ -1,0 +1,61 @@
+header {
+display: flex;
+justify-content: space-between;
+height: 64px;
+align-items: center;
+margin: 0 32px 0 32px;
+}
+header a {
+margin: 0 16px;
+}
+#search-window {
+display: flex;
+width: 60%;
+margin: 0 auto;
+}
+#news-button {
+width: 120px;
+}
+#input {
+flex: 1;
+}
+.search-categories {
+    display: flex;
+    width: 60%;
+    margin: 0 auto;
+    flex-direction: column;
+}
+.search-category-options a {
+margin: 4px 8px;
+display: inline-block;
+}
+.article {
+    display: flex;
+    align-items: center;
+    height: 64px;
+
+}
+.article-image {
+height: 64px;
+width: 64px;
+}
+.article-api-face {
+height: 64px;
+width: 64px;
+}
+#search-result {
+display: flex;
+width: 60%;
+margin: 128px auto;
+}
+#about,#purpose {
+width: 90%;
+margin: 0 auto;
+}
+#credits {
+width: 25%;
+margin: 0 auto;
+}
+footer {
+    margin: 128px auto 32px auto;
+}
