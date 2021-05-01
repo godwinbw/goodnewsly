@@ -1,3 +1,10 @@
+:root {
+  --banner-start: #7541d3;
+  --banner-end: #77d4ff;
+  --border-color: darkslategrey;
+  --button-color: #717de6;
+}
+
 /* remove default margins from every elememt */
 * {
   margin: 0;
@@ -9,4 +16,73 @@ body {
   font-family: "Open Sans", sans-serif;
   font-size: 16px;
   line-height: 1;
+}
+
+/* BANNER styling start */
+#banner-row {
+  background-image: linear-gradient(
+    to right,
+    var(--banner-start),
+    var(--banner-end)
+  );
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0px;
+}
+
+#banner {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+#banner-icon {
+  height: 100px;
+}
+
+#banner-text {
+  font-family: "Kanit";
+  color: white;
+  font-size: 60px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+/* SEARCH COLUMN styling starts here */
+#search-column {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+.search-type {
+  margin-top: 10px;
+  margin-left: 10px;
+  border-radius: 5px;
+  border: 2px solid var(--border-color);
+  padding: 10px;
+}
+
+.pure-button-primary {
+  border-radius: 5px;
+  background-color: var(--button-color);
+}
+
+/* SEARCH RESULTS styling starts here */
+
+#search-results-column {
+  margin-top: 10px;
+  margin-left: 10px;
+  border-radius: 5px;
+  border: 2px solid var(--border-color);
+  padding: 10px;
+}
+
+.news-item {
+  list-style: none;
+  margin-top: 5px;
+  font-size: 22px;
 }

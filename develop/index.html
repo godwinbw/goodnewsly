@@ -5,13 +5,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <!--
-    <meta
-      http-equiv="Content-Security-Policy"
-      content="connect-src 'self' http://api.mediastack.com https://apis.paralleldots.com"
-    />
-    -->
-
     <title>Goodnewsly</title>
     <!-- this project uses pure CSS (purecss.io)  -->
     <link
@@ -22,42 +15,97 @@
       rel="stylesheet"
       href="https://unpkg.com/purecss@2.0.5/build/grids-responsive-min.css"
     />
+    <link
+      href="https://fonts.googleapis.com/css?family=Kanit"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="./assets/css/style.css" />
   </head>
   <body>
-    <div>
-      <h2>Test the APIs</h2>
-      <br />
-      <p>Open console to see api results</p>
-      <br />
-      <button id="news-button">Current News</button>
-      <br />
-      <br />
-      <button id="news-keyword-search">Keyword Search</button>
-      <br />
-      <br />
-      <button id="news-single-category-search">
-        Category Search (single category)
-      </button>
-      <br />
-      <br />
-      <button id="news-multi-category-search">
-        Category Search (multiple categories)
-      </button>
-      <br />
-      <br />
-      <button id="news-keyword-and-single-category-search">
-        Keyword and Category Search (single category)
-      </button>
-      <br />
-      <br />
-      <button id="news-keyword-and-multi-category-search">
-        Keyword and Category Search (multiple category)
-      </button>
+    <div class="pure-g" id="banner-row">
+      <div class="pure-u-1" id="banner">
+        <img
+          src="./assets/images/news-icon-white-transparent.png"
+          id="banner-icon"
+        />
+        <h1 id="banner-text">goodnewsly</h1>
+      </div>
     </div>
-    <div id="sentiment-results">
-      <!-- will add sentiment results here programmatcially -->
+
+    <div class="pure-g" id="main-content">
+      <div class="pure-u-1 pure-u-sm-1-4" id="search-column">
+        <div class="pure-u-1 search-type" id="search-current">
+          <h2>Search current news goes here</h2>
+          <button
+            class="pure-button pure-button-primary"
+            id="search-current-news-button"
+          >
+            Search Current News
+          </button>
+        </div>
+
+        <div class="pure-u-1 search-type" id="search-keyword">
+          <h2>Search by Keyword Goes Here</h2>
+          <h3 class="search-title">Search for:</h3>
+          <input
+            type="text"
+            id="search-keyword"
+            placeholder="enter keywords"
+            name="keyword"
+          />
+          <button
+            class="pure-button pure-button-primary"
+            id="search-keyword-button"
+          >
+            Search
+          </button>
+        </div>
+
+        <div class="pure-u-1 search-type" id="search-category">
+          <h2>Search by Category goes here</h2>
+        </div>
+      </div>
+
+      <div class="pure-u1-1 pure-u-sm-3-4" id="search-results">
+        <div id="search-results-column">
+          <h2>Search Results will go here</h2>
+          <ul>
+            <li class="news-item">List item 1</li>
+            <li class="news-item">List item 2</li>
+            <li class="news-item">List item 3</li>
+            <li class="news-item">List item 4</li>
+            <li class="news-item">List item 5</li>
+            <li class="news-item">List item 6</li>
+            <li class="news-item">List item 7</li>
+            <li class="news-item">List item 8</li>
+            <li class="news-item">List item 9</li>
+            <li class="news-item">List item 10</li>
+            <li class="news-item">List item 11</li>
+            <li class="news-item">List item 12</li>
+            <li class="news-item">List item 13</li>
+            <li class="news-item">List item 14</li>
+            <li class="news-item">List item 15</li>
+            <li class="news-item">List item 16</li>
+            <li class="news-item">List item 17</li>
+            <li class="news-item">List item 18</li>
+            <li class="news-item">List item 19</li>
+            <li class="news-item">List item 20</li>
+            <li class="news-item">List item 21</li>
+            <li class="news-item">List item 22</li>
+            <li class="news-item">List item 23</li>
+            <li class="news-item">List item 24</li>
+            <li class="news-item">List item 25</li>
+            <li class="news-item">List item 26</li>
+            <li class="news-item">List item 27</li>
+            <li class="news-item">List item 28</li>
+            <li class="news-item">List item 29</li>
+            <li class="news-item">List item 30</li>
+            <li class="news-item">List item 31</li>
+          </ul>
+        </div>
+      </div>
     </div>
+
     <!-- we are using jquery in this project -->
     <script
       src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
