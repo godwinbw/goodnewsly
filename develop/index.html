@@ -1,86 +1,246 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
     <title>Goodnewsly</title>
+
     <link
-  rel="stylesheet"
-  href="https://unpkg.com/purecss@2.0.5/build/pure-min.css"
-/>
-<link
-  rel="stylesheet"
-  href="https://unpkg.com/purecss@2.0.5/build/grids-responsive-min.css"
-/>
-<script src="./assets/js/script.js"></script>
-<link href="./assets/css/style.css" rel="stylesheet" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" ></script>
-</head>
-<body>
-    <header>
-        <h1>
-            <a>Goodnewsly</a>
-        </h1>
-        <nav>
-            <div>
-                  <a href="#about">About</a>
-                  <a href="#purpose">Purpose</a>
-            </div>
-        </nav>
+      rel="stylesheet"
+      href="https://unpkg.com/purecss@2.0.5/build/pure-min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/purecss@2.0.5/build/grids-responsive-min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Kanit"
+      rel="stylesheet"
+    />
+
+    <link href="./assets/css/style.css" rel="stylesheet" />
+  </head>
+
+  <body>
+    <header class="pure-g" id="banner-header">
+      <div class="pure-u-1" id="banner">
+        <img
+          src="./assets/images/news-icon-white-transparent.png"
+          id="banner-icon"
+        />
+        <h1 id="banner-text">goodnewsly</h1>
+      </div>
+
+      <nav class="pure-u-1" id="banner-menu">
+        <a href="#about">About</a>
+        <a href="#purpose">Purpose</a>
+      </nav>
     </header>
-<div id="news-body">
-    <form id="search-window">
-        <input type="text" placeholder="Start Searching" id="input" />
-        <button id="news-button">Search</button>
-    </form>
-    <div class="search-categories">
-        <p>Or choose from our most popular options</p>
-        <div class="search-category-options">
-            <a>Sports</a>
-            <a>Programming</a>
-            <a>Regional</a>
-            <a>Technology</a>
-            <a>Lifestyle</a>
-            <a>Business</a>
-            <a>General</a>
-            <a>Science</a>
-            <a>Entertainment</a>
-            <a>World</a>
-            <a>Finance</a>
-            <a>Academia</a>
-            <a>Politics</a>
-            <a>Health</a>
-            <a>Opinion</a>
-            <a>Food</a>
-            <a>Game</a>
+
+    <section class="pure-g" id="main-content">
+      <div class="pure-u-1 pure-u-sm-1-4" id="search-column">
+        <div class="pure-u-1 search-type" id="search-current">
+          <h2>Search current news goes here</h2>
+          <button
+            class="pure-button pure-button-primary"
+            id="search-current-news-button"
+          >
+            Search Current News
+          </button>
         </div>
-    </div>
-    <div id="search-result">
-        <div class="article">
-            <img class="article-image" src="https://cdn.theathletic.com/app/uploads/2021/04/29132522/Draft_Grades-1024x683.jpg" />
-            <img class="article-api-face" src="https://user-images.githubusercontent.com/79855774/116639974-56d09780-a92f-11eb-88ea-a7cba4fbaf01.png" />
-            <a href="https://theathletic.com/2556630/2021/04/30/2021-nfl-draft-grades-for-every-round-2-and-3-pick/">2021 NFL Draft grades for every Round 2 and 3 pick: Buccaneers make a mistake with Kyle Trask</a>
+
+        <div class="pure-u-1 search-type" id="search-keyword">
+          <h2>Search by Keyword Goes Here</h2>
+          <h3 class="search-title">Search for:</h3>
+          <input
+            type="text"
+            id="search-keyword"
+            placeholder="enter keywords"
+            name="keyword"
+          />
+          <button
+            class="pure-button pure-button-primary"
+            id="search-keyword-button"
+          >
+            Search
+          </button>
         </div>
-    </div>
-</div>
-<section id="about">
-    <h2>About</h2>
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi pharetra mollis efficitur. Suspendisse quis mauris vel nunc ornare venenatis nec ut orci. Donec consequat leo ut ligula tempus molestie. Suspendisse auctor ligula convallis pellentesque ullamcorper. Mauris at augue volutpat, tincidunt tellus ut, fermentum metus. Donec sapien dolor, facilisis vel sapien a, gravida euismod eros. Aenean viverra arcu sed ipsum porta vehicula. Praesent sagittis efficitur consequat.</p>
-</section>
-<section id="purpose">
-    <h2>Purpose</h2>
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi pharetra mollis efficitur. Suspendisse quis mauris vel nunc ornare venenatis nec ut orci. Donec consequat leo ut ligula tempus molestie. Suspendisse auctor ligula convallis pellentesque ullamcorper. Mauris at augue volutpat, tincidunt tellus ut, fermentum metus. Donec sapien dolor, facilisis vel sapien a, gravida euismod eros. Aenean viverra arcu sed ipsum porta vehicula. Praesent sagittis efficitur consequat.</p>
-</section>
-<footer>
-    <div id="credits">
-        <h2>Creators:</h2>
-            <h3>Bryan "godwinbw" Godwin</h3>
-            <h3>Mark "marksmoore" Moore</h3>
-            <h3>Timur "Tim-rt" Kuramshin</h3>
-        <div>
-            &copy; 2021 Goodnewsly
+
+        <div class="pure-u-1 search-type" id="search-category">
+          <h2>Search by Category goes here</h2>
+          <div class="search-categories">
+            <p>Or choose from our most popular options</p>
+            <div class="search-category-options">
+              <a>Sports</a>
+              <a>Programming</a>
+              <a>Regional</a>
+              <a>Technology</a>
+              <a>Lifestyle</a>
+              <a>Business</a>
+              <a>General</a>
+              <a>Science</a>
+              <a>Entertainment</a>
+              <a>World</a>
+              <a>Finance</a>
+              <a>Academia</a>
+              <a>Politics</a>
+              <a>Health</a>
+              <a>Opinion</a>
+              <a>Food</a>
+              <a>Game</a>
+            </div>
+          </div>
         </div>
-</footer>
-</body>
+      </div>
+
+      <div class="pure-u1-1 pure-u-sm-3-4" id="search-results">
+        <div id="search-results-column">
+          <h2>Search Results will go here</h2>
+          <ul>
+            <li class="news-item">
+              <div class="article">
+                <img
+                  class="article-image"
+                  src="https://cdn.theathletic.com/app/uploads/2021/04/29132522/Draft_Grades-1024x683.jpg"
+                />
+                <img
+                  class="article-api-face"
+                  src="./assets/images/positive-high.png"
+                />
+                <a
+                  href="https://theathletic.com/2556630/2021/04/30/2021-nfl-draft-grades-for-every-round-2-and-3-pick/"
+                  >2021 NFL Draft grades for every Round 2 and 3 pick:
+                  Buccaneers make a mistake with Kyle Trask</a
+                >
+              </div>
+            </li>
+            <li class="news-item">
+              <div class="article">
+                <img
+                  class="article-image"
+                  src="https://cdn.theathletic.com/app/uploads/2021/04/29132522/Draft_Grades-1024x683.jpg"
+                />
+                <img
+                  class="article-api-face"
+                  src="./assets/images/positive-medium.png"
+                />
+                <a
+                  href="https://theathletic.com/2556630/2021/04/30/2021-nfl-draft-grades-for-every-round-2-and-3-pick/"
+                  >2021 NFL Draft grades for every Round 2 and 3 pick:
+                  Buccaneers make a mistake with Kyle Trask</a
+                >
+              </div>
+            </li>
+            <li class="news-item">
+              <div class="article">
+                <img
+                  class="article-image"
+                  src="https://cdn.theathletic.com/app/uploads/2021/04/29132522/Draft_Grades-1024x683.jpg"
+                />
+                <img
+                  class="article-api-face"
+                  src="./assets/images/neutral.png"
+                />
+                <a
+                  href="https://theathletic.com/2556630/2021/04/30/2021-nfl-draft-grades-for-every-round-2-and-3-pick/"
+                  >2021 NFL Draft grades for every Round 2 and 3 pick:
+                  Buccaneers make a mistake with Kyle Trask</a
+                >
+              </div>
+            </li>
+            <li class="news-item">
+              <div class="article">
+                <img
+                  class="article-image"
+                  src="https://cdn.theathletic.com/app/uploads/2021/04/29132522/Draft_Grades-1024x683.jpg"
+                />
+                <img
+                  class="article-api-face"
+                  src="./assets/images/negative-medium.png"
+                />
+                <a
+                  href="https://theathletic.com/2556630/2021/04/30/2021-nfl-draft-grades-for-every-round-2-and-3-pick/"
+                  >2021 NFL Draft grades for every Round 2 and 3 pick:
+                  Buccaneers make a mistake with Kyle Trask</a
+                >
+              </div>
+            </li>
+            <li class="news-item">
+              <div class="article">
+                <img
+                  class="article-image"
+                  src="https://cdn.theathletic.com/app/uploads/2021/04/29132522/Draft_Grades-1024x683.jpg"
+                />
+                <img
+                  class="article-api-face"
+                  src="./assets/images/negative-high.png"
+                />
+                <a
+                  href="https://theathletic.com/2556630/2021/04/30/2021-nfl-draft-grades-for-every-round-2-and-3-pick/"
+                  >2021 NFL Draft grades for every Round 2 and 3 pick:
+                  Buccaneers make a mistake with Kyle Trask</a
+                >
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="pure-g" id="about">
+      <div class="pure-u-1 pure-u-sm-1-4" id="about-title">
+        <h2>About</h2>
+      </div>
+      <div class="pure-u-1 pure-u-sm-3-4" id="about-content">
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi
+          pharetra mollis efficitur. Suspendisse quis mauris vel nunc ornare
+          venenatis nec ut orci. Donec consequat leo ut ligula tempus molestie.
+          Suspendisse auctor ligula convallis pellentesque ullamcorper. Mauris
+          at augue volutpat, tincidunt tellus ut, fermentum metus. Donec sapien
+          dolor, facilisis vel sapien a, gravida euismod eros. Aenean viverra
+          arcu sed ipsum porta vehicula. Praesent sagittis efficitur consequat.
+        </p>
+      </div>
+    </section>
+
+    <section class="pure-g" id="purpose">
+      <div class="pure-u-1 pure-u-sm-1-4" id="purpose-title">
+        <h2>Purpose</h2>
+      </div>
+      <div class="pure-u-1 pure-u-sm-3-4" id="purpose-content">
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi
+          pharetra mollis efficitur. Suspendisse quis mauris vel nunc ornare
+          venenatis nec ut orci. Donec consequat leo ut ligula tempus molestie.
+          Suspendisse auctor ligula convallis pellentesque ullamcorper. Mauris
+          at augue volutpat, tincidunt tellus ut, fermentum metus. Donec sapien
+          dolor, facilisis vel sapien a, gravida euismod eros. Aenean viverra
+          arcu sed ipsum porta vehicula. Praesent sagittis efficitur consequat.
+        </p>
+      </div>
+    </section>
+
+    <footer class="pure-g" id="footer">
+      <div class="pure-g-u-1" id="footer-row">
+        <div id="credits">
+          <h4>Creators:</h4>
+          <h5>Bryan "godwinbw" Godwin</h5>
+          <h5>Mark "marksmoore" Moore</h5>
+          <h5>Timur "Tim-rt" Kuramshin</h5>
+          <div id="footer-copyright">&copy; 2021 <span>goodnewsly</span></div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- we are using jquery in this project -->
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
+      integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
+      crossorigin="anonymous"
+    ></script>
+    <script src="./assets/js/script.js"></script>
+  </body>
 </html>

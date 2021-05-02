@@ -1,61 +1,240 @@
-header {
-display: flex;
-justify-content: space-between;
-height: 64px;
-align-items: center;
-margin: 0 32px 0 32px;
+/* color definitions */
+
+:root {
+  --banner-start: #7541d3;
+  --banner-end: #77d4ff;
+  --border-color: darkslategrey;
+  --button-color: #717de6;
 }
-header a {
-margin: 0 16px;
+
+/* remove default margins from every elememt */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
-#search-window {
-display: flex;
-width: 60%;
-margin: 0 auto;
+
+/* styling that applies to entire body */
+body {
+  font-family: "Open Sans", sans-serif;
+  font-size: 16px;
+  line-height: 1;
 }
-#news-button {
-width: 120px;
+
+/* BANNER styling start */
+#banner-header {
+  background-image: linear-gradient(
+    to right,
+    var(--banner-start),
+    var(--banner-end)
+  );
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0px;
 }
-#input {
-flex: 1;
+
+#banner {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
+
+#banner-icon {
+  height: 100px;
+}
+
+#banner-text {
+  font-family: "Kanit";
+  color: white;
+  font-size: 60px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+#banner-menu {
+  padding: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: flex-end;
+}
+
+#banner-menu a {
+  margin: 0 16px;
+  color: white;
+}
+
+/* SEARCH COLUMN styling starts here */
+#search-column {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+.search-type {
+  margin-top: 10px;
+  margin-left: 10px;
+  border-radius: 5px;
+  border: 2px solid var(--border-color);
+  padding: 10px;
+}
+
+.pure-button-primary {
+  border-radius: 5px;
+  background-color: var(--button-color);
+}
+
 .search-categories {
-    display: flex;
-    width: 60%;
-    margin: 0 auto;
-    flex-direction: column;
+  display: flex;
+  width: 60%;
+  margin: 0 auto;
+  flex-direction: column;
 }
 .search-category-options a {
-margin: 4px 8px;
-display: inline-block;
+  margin: 4px 8px;
+  display: inline-block;
 }
-.article {
-    display: flex;
-    align-items: center;
-    height: 64px;
 
+/* SEARCH RESULTS styling starts here */
+
+#search-results-column {
+  display: flex;
+  flex-direction: column;
+
+  margin-top: 10px;
+  margin-left: 10px;
+  border-radius: 5px;
+  border: 2px solid var(--border-color);
+  padding: 10px;
+}
+
+.news-item {
+  list-style: none;
+  margin-top: 5px;
+  font-size: 22px;
+}
+
+.article {
+  display: flex;
+  align-items: center;
+  height: 64px;
 }
 .article-image {
-height: 64px;
-width: 64px;
+  height: 64px;
+  width: 64px;
 }
 .article-api-face {
-height: 64px;
-width: 64px;
+  height: 64px;
+  width: 64px;
+  object-fit: contain;
 }
-#search-result {
-display: flex;
-width: 60%;
-margin: 128px auto;
+
+/* ABOUT styling starts here */
+#about {
+  width: 100%;
+  border-radius: 5px;
+  border: 2px solid var(--border-color);
 }
-#about,#purpose {
-width: 90%;
-margin: 0 auto;
+
+#about-title {
+  background-image: linear-gradient(
+    to right,
+    var(--banner-start),
+    var(--banner-end)
+  );
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
 }
+
+#about-title h2 {
+  color: white;
+  font-size: 36px;
+}
+
+#about-content {
+  padding: 10px;
+}
+
+/* PURPOSE styling starts here */
+#purpose {
+  width: 100%;
+  border-radius: 5px;
+  border: 2px solid var(--border-color);
+}
+
+#purpose-title {
+  background-image: linear-gradient(
+    to right,
+    var(--banner-start),
+    var(--banner-end)
+  );
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+#purpose-title h2 {
+  color: white;
+  font-size: 36px;
+}
+
+#purpose-content {
+  padding: 10px;
+}
+
+/* FOOTER styling starts here */
+#footer-row {
+  width: 100%;
+  padding: 10px;
+  background-image: linear-gradient(
+    to right,
+    var(--banner-start),
+    var(--banner-end),
+    white
+  );
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
 #credits {
-width: 25%;
-margin: 0 auto;
+  margin: 0 auto;
 }
-footer {
-    margin: 128px auto 32px auto;
+
+#powerpoint-footer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+#credits {
+  color: white;
+  font-size: 18px;
+  letter-spacing: normal;
+  padding: 5px;
+}
+
+#credits h4,
+h5 {
+  padding: 2px;
+}
+
+#footer-copyright {
+  color: white;
+  font-size: 14px;
+  padding: 5px;
+}
+
+#footer-copyright span {
+  font-family: "Kanit";
+  color: white;
+  font-size: 14px;
 }
