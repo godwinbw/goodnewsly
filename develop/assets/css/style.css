@@ -1,12 +1,12 @@
 /* remove default margins from every elememt */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  
-  body {
-    font-family: "Open Sans", sans-serif;
-    font-size: 16px;
-    line-height: 1;
-  }
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Open Sans", sans-serif;
+  font-size: 16px;
+  line-height: 1;
+}
