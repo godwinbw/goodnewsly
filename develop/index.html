@@ -4,6 +4,14 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!--
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="connect-src 'self' http://api.mediastack.com https://apis.paralleldots.com"
+    />
+    -->
+
     <title>Goodnewsly</title>
     <!-- this project uses pure CSS (purecss.io)  -->
     <link
@@ -22,7 +30,30 @@
       <br />
       <p>Open console to see api results</p>
       <br />
-      <button id="news-button">Do it!</button>
+      <button id="news-button">Current News</button>
+      <br />
+      <br />
+      <button id="news-keyword-search">Keyword Search</button>
+      <br />
+      <br />
+      <button id="news-single-category-search">
+        Category Search (single category)
+      </button>
+      <br />
+      <br />
+      <button id="news-multi-category-search">
+        Category Search (multiple categories)
+      </button>
+      <br />
+      <br />
+      <button id="news-keyword-and-single-category-search">
+        Keyword and Category Search (single category)
+      </button>
+      <br />
+      <br />
+      <button id="news-keyword-and-multi-category-search">
+        Keyword and Category Search (multiple category)
+      </button>
     </div>
     <div id="sentiment-results">
       <!-- will add sentiment results here programmatcially -->
