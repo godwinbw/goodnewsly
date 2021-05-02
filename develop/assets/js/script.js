@@ -6,7 +6,6 @@
 ////  be called.  For development, limit to once every 20 seonds
 ///   for production, once every 600 seconds (10 minutes)
 ////------------------------------------------------------
-document.getElementById("news-roll").style.visibility = "hidden";
 
 var getCurrentNewsAndSentiment = function () {
   return new Promise(function (resolve, reject) {
@@ -482,9 +481,11 @@ var getCurrentNewsAndSentimentFromApiByKeywordAndCategory = function (
 
 var newsButtonClicked = function () {
   console.log("============================");
-  console.log("news button clicked.  Here is where we want to turn on the animation.");
+  console.log(
+    "news button clicked.  Here is where we want to turn on the animation."
+  );
   //Here is where we want to turn on the animation
-  document.getElementById("news-roll").style.visibility = "visible";
+  $("#waiting-for-news-animation-holder").show();
   getCurrentNewsAndSentiment()
     .then(function (news) {
       console.log("return from getCurrentNewsAndSentiment with news");
@@ -496,11 +497,10 @@ var newsButtonClicked = function () {
       console.log(error);
       console.log("============================");
     })
-.finally(function(){
-    console.log("Here is where we want to turn off the animation.");
-    document.getElementById("news-roll").style.visibility = "hidden";
-});
-
+    .finally(function () {
+      console.log("Here is where we want to turn off the animation.");
+      $("#waiting-for-news-animation-holder").hide();
+    });
 };
 
 var newsKeywordSearchClicked = function () {
@@ -594,10 +594,13 @@ var newsKeywordAndMultiCategorySearchClicked = function () {
     });
 };
 
+/// need to hide the news-roll animation on first load
+$("#waiting-for-news-animation-holder").hide();
+
 /// these are bindings to button clicked handlers;
 
 // get news button is clicked
-$("#news-button").on("click", newsButtonClicked);
+$("#search-current-news-button").on("click", newsButtonClicked);
 
 // keyword search is clicked
 $("#news-keyword-search").on("click", newsKeywordSearchClicked);

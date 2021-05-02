@@ -5,15 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <!--
-    <meta
-      http-equiv="Content-Security-Policy"
-      content="connect-src 'self' http://api.mediastack.com https://apis.paralleldots.com"
-    />
-    -->
-
     <title>Goodnewsly</title>
-    <!-- this project uses pure CSS (purecss.io)  -->
+
     <link
       rel="stylesheet"
       href="https://unpkg.com/purecss@2.0.5/build/pure-min.css"
@@ -22,43 +15,237 @@
       rel="stylesheet"
       href="https://unpkg.com/purecss@2.0.5/build/grids-responsive-min.css"
     />
-    <link rel="stylesheet" href="./assets/css/style.css" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Kanit"
+      rel="stylesheet"
+    />
+
+    <link href="./assets/css/style.css" rel="stylesheet" />
   </head>
+
   <body>
-    <div>
-      <h2>Test the APIs</h2>
-      <br />
-      <p>Open console to see api results</p>
-      <br />
-      <button id="news-button">Current News</button>
-      <br />
-      <br />
-      <button id="news-keyword-search">Keyword Search</button>
-      <br />
-      <br />
-      <button id="news-single-category-search">
-        Category Search (single category)
-      </button>
-      <br />
-      <br />
-      <button id="news-multi-category-search">
-        Category Search (multiple categories)
-      </button>
-      <br />
-      <br />
-      <button id="news-keyword-and-single-category-search">
-        Keyword and Category Search (single category)
-      </button>
-      <br />
-      <br />
-      <button id="news-keyword-and-multi-category-search">
-        Keyword and Category Search (multiple category)
-      </button>
-    </div>
-    <div id="sentiment-results">
-      <!-- will add sentiment results here programmatcially -->
-      <lottie-player id="news-roll" src="https://assets7.lottiefiles.com/datafiles/98a3d0add75fc3c86f6d6f9b148c111e/Newspaper animation.json"  background="transparent"  speed="1"  style="width: 300px; height: 300px;"  loop controls autoplay></lottie-player>
-    </div>
+    <header class="pure-g" id="banner-header">
+      <div class="pure-u-1" id="banner">
+        <img
+          src="./assets/images/news-icon-white-transparent.png"
+          id="banner-icon"
+        />
+        <h1 id="banner-text">goodnewsly</h1>
+      </div>
+
+      <nav class="pure-u-1" id="banner-menu">
+        <a href="#about">About</a>
+        <a href="#purpose">Purpose</a>
+      </nav>
+    </header>
+
+    <section class="pure-g" id="main-content">
+      <div class="pure-u-1 pure-u-sm-1-4" id="search-column">
+        <div class="pure-u-1 search-type" id="search-current">
+          <h2>Search current news goes here</h2>
+          <button
+            class="pure-button pure-button-primary"
+            id="search-current-news-button"
+          >
+            Search Current News
+          </button>
+        </div>
+
+        <div class="pure-u-1 search-type" id="search-keyword">
+          <h2>Search by Keyword Goes Here</h2>
+          <h3 class="search-title">Search for:</h3>
+          <input
+            type="text"
+            id="search-keyword"
+            placeholder="enter keywords"
+            name="keyword"
+          />
+          <button
+            class="pure-button pure-button-primary"
+            id="search-keyword-button"
+          >
+            Search
+          </button>
+        </div>
+
+        <div class="pure-u-1 search-type" id="search-category">
+          <h2>Search by Category goes here</h2>
+          <div class="search-categories">
+            <p>Or choose from our most popular options</p>
+            <div class="search-category-options">
+              <a>Sports</a>
+              <a>Programming</a>
+              <a>Regional</a>
+              <a>Technology</a>
+              <a>Lifestyle</a>
+              <a>Business</a>
+              <a>General</a>
+              <a>Science</a>
+              <a>Entertainment</a>
+              <a>World</a>
+              <a>Finance</a>
+              <a>Academia</a>
+              <a>Politics</a>
+              <a>Health</a>
+              <a>Opinion</a>
+              <a>Food</a>
+              <a>Game</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="pure-u1-1 pure-u-sm-3-4" id="search-results">
+        <div id="search-results-column">
+          <h2>Search Results will go here</h2>
+          <div id="waiting-for-news-animation-holder">
+            <lottie-player
+              id="news-roll"
+              src="https://assets7.lottiefiles.com/datafiles/98a3d0add75fc3c86f6d6f9b148c111e/Newspaper animation.json"
+              background="transparent"
+              speed="1"
+              style="width: 300px; height: 300px"
+              loop
+              autoplay
+            ></lottie-player>
+          </div>
+          <ul>
+            <li class="news-item">
+              <div class="article">
+                <img
+                  class="article-image"
+                  src="https://cdn.theathletic.com/app/uploads/2021/04/29132522/Draft_Grades-1024x683.jpg"
+                />
+                <img
+                  class="article-api-face"
+                  src="./assets/images/positive-high.png"
+                />
+                <a
+                  href="https://theathletic.com/2556630/2021/04/30/2021-nfl-draft-grades-for-every-round-2-and-3-pick/"
+                  >2021 NFL Draft grades for every Round 2 and 3 pick:
+                  Buccaneers make a mistake with Kyle Trask</a
+                >
+              </div>
+            </li>
+            <li class="news-item">
+              <div class="article">
+                <img
+                  class="article-image"
+                  src="https://cdn.theathletic.com/app/uploads/2021/04/29132522/Draft_Grades-1024x683.jpg"
+                />
+                <img
+                  class="article-api-face"
+                  src="./assets/images/positive-medium.png"
+                />
+                <a
+                  href="https://theathletic.com/2556630/2021/04/30/2021-nfl-draft-grades-for-every-round-2-and-3-pick/"
+                  >2021 NFL Draft grades for every Round 2 and 3 pick:
+                  Buccaneers make a mistake with Kyle Trask</a
+                >
+              </div>
+            </li>
+            <li class="news-item">
+              <div class="article">
+                <img
+                  class="article-image"
+                  src="https://cdn.theathletic.com/app/uploads/2021/04/29132522/Draft_Grades-1024x683.jpg"
+                />
+                <img
+                  class="article-api-face"
+                  src="./assets/images/neutral.png"
+                />
+                <a
+                  href="https://theathletic.com/2556630/2021/04/30/2021-nfl-draft-grades-for-every-round-2-and-3-pick/"
+                  >2021 NFL Draft grades for every Round 2 and 3 pick:
+                  Buccaneers make a mistake with Kyle Trask</a
+                >
+              </div>
+            </li>
+            <li class="news-item">
+              <div class="article">
+                <img
+                  class="article-image"
+                  src="https://cdn.theathletic.com/app/uploads/2021/04/29132522/Draft_Grades-1024x683.jpg"
+                />
+                <img
+                  class="article-api-face"
+                  src="./assets/images/negative-medium.png"
+                />
+                <a
+                  href="https://theathletic.com/2556630/2021/04/30/2021-nfl-draft-grades-for-every-round-2-and-3-pick/"
+                  >2021 NFL Draft grades for every Round 2 and 3 pick:
+                  Buccaneers make a mistake with Kyle Trask</a
+                >
+              </div>
+            </li>
+            <li class="news-item">
+              <div class="article">
+                <img
+                  class="article-image"
+                  src="https://cdn.theathletic.com/app/uploads/2021/04/29132522/Draft_Grades-1024x683.jpg"
+                />
+                <img
+                  class="article-api-face"
+                  src="./assets/images/negative-high.png"
+                />
+                <a
+                  href="https://theathletic.com/2556630/2021/04/30/2021-nfl-draft-grades-for-every-round-2-and-3-pick/"
+                  >2021 NFL Draft grades for every Round 2 and 3 pick:
+                  Buccaneers make a mistake with Kyle Trask</a
+                >
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="pure-g" id="about">
+      <div class="pure-u-1 pure-u-sm-1-4" id="about-title">
+        <h2>About</h2>
+      </div>
+      <div class="pure-u-1 pure-u-sm-3-4" id="about-content">
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi
+          pharetra mollis efficitur. Suspendisse quis mauris vel nunc ornare
+          venenatis nec ut orci. Donec consequat leo ut ligula tempus molestie.
+          Suspendisse auctor ligula convallis pellentesque ullamcorper. Mauris
+          at augue volutpat, tincidunt tellus ut, fermentum metus. Donec sapien
+          dolor, facilisis vel sapien a, gravida euismod eros. Aenean viverra
+          arcu sed ipsum porta vehicula. Praesent sagittis efficitur consequat.
+        </p>
+      </div>
+    </section>
+
+    <section class="pure-g" id="purpose">
+      <div class="pure-u-1 pure-u-sm-1-4" id="purpose-title">
+        <h2>Purpose</h2>
+      </div>
+      <div class="pure-u-1 pure-u-sm-3-4" id="purpose-content">
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi
+          pharetra mollis efficitur. Suspendisse quis mauris vel nunc ornare
+          venenatis nec ut orci. Donec consequat leo ut ligula tempus molestie.
+          Suspendisse auctor ligula convallis pellentesque ullamcorper. Mauris
+          at augue volutpat, tincidunt tellus ut, fermentum metus. Donec sapien
+          dolor, facilisis vel sapien a, gravida euismod eros. Aenean viverra
+          arcu sed ipsum porta vehicula. Praesent sagittis efficitur consequat.
+        </p>
+      </div>
+    </section>
+
+    <footer class="pure-g" id="footer">
+      <div class="pure-g-u-1" id="footer-row">
+        <div id="credits">
+          <h4>Creators:</h4>
+          <h5>Bryan "godwinbw" Godwin</h5>
+          <h5>Mark "marksmoore" Moore</h5>
+          <h5>Timur "Tim-rt" Kuramshin</h5>
+          <div id="footer-copyright">&copy; 2021 <span>goodnewsly</span></div>
+        </div>
+      </div>
+    </footer>
+
     <!-- we are using jquery in this project -->
     <script
       src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
@@ -67,5 +254,5 @@
     ></script>
     <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
     <script src="assets/js/script.js"></script>
-</body>
+  </body>
 </html>
