@@ -458,6 +458,9 @@ var newsMultiCategorySearchClicked = function () {
     categoryArray.push(categoriesSelected[i].text);
   }
 
+  // remove all values frmo category select (reset the users selection)
+  $(".search-category-options").val(null).trigger("change");
+
   getCurrentNewsAndSentimentFromApiByCategory(categoryArray)
     .then(function (result) {
       console.log(result);
