@@ -445,31 +445,20 @@ var newsKeywordSearchClicked = function () {
     });
 };
 
-var newsSingleCategorySearchClicked = function () {
-  console.log("=========================================");
-  console.log("newsSingleCategorySearchClicked");
-  getCurrentNewsAndSentimentFromApiByCategory(["television"])
-    .then(function (result) {
-      console.log(result);
-      console.log("newsSingleCategorySearchClicked SUCCESS");
-      console.log("=========================================");
-    })
-    .catch(function (error) {
-      console.log(error);
-      console.log("newsSingleCategorySearchClicked ERROR");
-      console.log("=========================================");
-    });
-};
-
 var newsMultiCategorySearchClicked = function () {
   console.log("=========================================");
   console.log("newsMultiCategorySearchClicked");
 
-  getCurrentNewsAndSentimentFromApiByCategory([
-    "television",
-    "finance",
-    "politics",
-  ])
+  //get values from category select
+  var categoriesSelected = $(".search-category-options").select2("data");
+  console.log("   searching for " + categoriesSelected.length + " categories");
+
+  var categoryArray = [];
+  for (var i = 0; i < categoriesSelected.length; i++) {
+    categoryArray.push(categoriesSelected[i].text);
+  }
+
+  getCurrentNewsAndSentimentFromApiByCategory(categoryArray)
     .then(function (result) {
       console.log(result);
       console.log("newsMultiCategorySearchClicked SUCCESS");
@@ -482,43 +471,11 @@ var newsMultiCategorySearchClicked = function () {
     });
 };
 
-var newsKeywordAndSingleCategorySearchClicked = function () {
-  console.log("=========================================");
-  console.log("newsKeywordAndSingleCategorySearchClicked");
-  getCurrentNewsAndSentimentFromApiByKeywordAndCategory("basketball", [
-    "sports",
-  ])
-    .then(function (result) {
-      console.log(result);
-      console.log("newsKeywordAndSingleCategorySearchClicked SUCCESS");
-      console.log("=========================================");
-    })
-    .catch(function (error) {
-      console.log(error);
-      console.log("newsKeywordAndSingleCategorySearchClicked ERROR");
-      console.log("=========================================");
-    });
-};
-
-var newsKeywordAndMultiCategorySearchClicked = function () {
-  console.log("=========================================");
-  console.log("newsKeywordAndMultiCategorySearchClicked");
-  getCurrentNewsAndSentimentFromApiByKeywordAndCategory("basketball", [
-    "sports",
-    "finance",
-    "politics",
-  ])
-    .then(function (result) {
-      console.log(result);
-      console.log("newsKeywordAndMultiCategorySearchClicked SUCCESS");
-      console.log("=========================================");
-    })
-    .catch(function (error) {
-      console.log(error);
-      console.log("newsKeywordAndMultiCategorySearchClicked ERROR");
-      console.log("=========================================");
-    });
-};
+//////////////////////
+////
+////   Category selection start
+////
+///////////////////////
 
 /// these are bindings to button clicked handlers;
 
@@ -528,27 +485,31 @@ $("#news-button").on("click", newsButtonClicked);
 // keyword search is clicked
 $("#news-keyword-search").on("click", newsKeywordSearchClicked);
 
-// single category search
-$("#news-single-category-search").on("click", newsSingleCategorySearchClicked);
-
-// multiple category search
-$("#news-multi-category-search").on("click", newsMultiCategorySearchClicked);
-
-// keyword and single category search
-$("#news-keyword-and-single-category-search").on(
-  "click",
-  newsKeywordAndSingleCategorySearchClicked
-);
-
-// keyword and multiple category search
-$("#news-keyword-and-multi-category-search").on(
-  "click",
-  newsKeywordAndMultiCategorySearchClicked
-);
+// category search
+$("#search-by-categories-button").on("click", newsMultiCategorySearchClicked);
 
 //console.log
-console.log("before activation chosen");
+$(document).ready(function () {
+  console.log("before activation select2");
 
-$(".search-category-options").chosen();
+  $(".search-category-options").select2({
+    placeholder: "Select one or more categories...",
+  });
 
-console.log("after activation chosen");
+  // disable the category selection button
+  $("#search-by-categories-button").prop("disabled", true);
+
+  // bind a function to check if we should enable or disable the button every time the category select box changes
+  $(".search-category-options").on("change", function (e) {
+    console.log("category select changed...");
+
+    var categoriesSelected = $(".search-category-options").select2("data");
+    if (categoriesSelected && categoriesSelected.length > 0) {
+      $("#search-by-categories-button").prop("disabled", false);
+    } else {
+      $("#search-by-categories-button").prop("disabled", true);
+    }
+  });
+
+  console.log("after activation select2");
+});

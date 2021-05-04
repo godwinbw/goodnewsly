@@ -20,6 +20,11 @@
       rel="stylesheet"
     />
 
+    <link
+      href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css"
+      rel="stylesheet"
+    />
+
     <link href="./assets/css/style.css" rel="stylesheet" />
   </head>
 
@@ -41,8 +46,8 @@
 
     <section class="pure-g" id="main-content">
       <div class="pure-u-1 pure-u-sm-1-4" id="search-column">
-        <div class="pure-u-1 search-type" id="search-current">
-          <h2>Search current news goes here</h2>
+        <div class="pure-u-1 search-type" id="search-type-current">
+          <h2>Search Current News</h2>
           <button
             class="pure-button pure-button-primary"
             id="search-current-news-button"
@@ -51,8 +56,8 @@
           </button>
         </div>
 
-        <div class="pure-u-1 search-type" id="search-keyword">
-          <h2>Search by Keyword Goes Here</h2>
+        <div class="pure-u-1 search-type" id="search-type-keyword">
+          <h2>Search by Keyword</h2>
           <h3 class="search-title">Search for:</h3>
           <input
             type="text"
@@ -68,8 +73,8 @@
           </button>
         </div>
 
-        <div class="pure-u-1 search-type" id="search-category">
-          <h2 class="search-category">Search by Category goes here</h2>
+        <div class="pure-u-1 search-type" id="search-type-category">
+          <h2 class="search-category">Search by Category</h2>
 
           <!--
           <input
@@ -81,22 +86,26 @@
           -->
 
           <div class="search-categories">
-            <select class="search-category-options" multiple>
-              <option value="1">Sports</option>
-              <option value="2">Programming</option>
-              <option value="3">Regional</option>
-              <option value="4">Technology</option>
-              <option value="5">Lifestyle</option>
-              <option value="6">Business</option>
-              <option value="7">Science</option>
-              <option value="8">Entertainment</option>
-              <option value="9">World</option>
-              <option value="10">Finance</option>
-              <option value="11">Education</option>
-              <option value="12">Politics</option>
-              <option value="13">Health</option>
-              <option value="14">Food</option>
-              <option value="15">Gaming</option>
+            <select
+              class="search-category-options"
+              multiple="multiple"
+              name="categories[]"
+            >
+              <option value="Sports">Sports</option>
+              <option value="Programming">Programming</option>
+              <option value="Regional">Regional</option>
+              <option value="Technology">Technology</option>
+              <option value="Lifestyle">Lifestyle</option>
+              <option value="Business">Business</option>
+              <option value="Science">Science</option>
+              <option value="Entertainment">Entertainment</option>
+              <option value="World">World</option>
+              <option value="Finance">Finance</option>
+              <option value="Education">Education</option>
+              <option value="Politics">Politics</option>
+              <option value="Health">Health</option>
+              <option value="Food">Food</option>
+              <option value="Gaming">Gaming</option>
             </select>
           </div>
 
@@ -255,11 +264,7 @@
       integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
       crossorigin="anonymous"
     ></script>
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.jquery.min.js"
-      integrity="sha512-rMGGF4wg1R73ehtnxXBt5mbUfN9JUJwbk21KMlnLZDJh7BkPmeovBuddZCENJddHYYMkCh9hPFnPmS9sspki8g=="
-      crossorigin="anonymous"
-    ></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="./assets/js/script.js"></script>
   </body>
 </html>
