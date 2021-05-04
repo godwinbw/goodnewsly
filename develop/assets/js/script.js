@@ -545,4 +545,10 @@ $("#news-keyword-and-multi-category-search").on(
   "click",
   newsKeywordAndMultiCategorySearchClicked
 );
-$(".dropdown-content").chosen();
+
+//console.log
+console.log("before activation chosen");
+
+$(".search-category-options").chosen();
+
+console.log("after activation chosen");
