@@ -4,8 +4,9 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
     <title>Goodnewsly</title>
-    <!-- this project uses pure CSS (purecss.io)  -->
+
     <link
       rel="stylesheet"
       href="https://unpkg.com/purecss@2.0.5/build/pure-min.css"
@@ -14,25 +15,209 @@
       rel="stylesheet"
       href="https://unpkg.com/purecss@2.0.5/build/grids-responsive-min.css"
     />
-    <link rel="stylesheet" href="./assets/css/style.css" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Kanit"
+      rel="stylesheet"
+    />
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css"
+      rel="stylesheet"
+    />
+
+    <link href="./assets/css/style.css" rel="stylesheet" />
   </head>
+
   <body>
-    <div>
-      <h2>Test the APIs</h2>
-      <br />
-      <p>Open console to see api results</p>
-      <br />
-      <button id="news-button">Do it!</button>
-    </div>
-    <div id="sentiment-results">
-      <!-- will add sentiment results here programmatcially -->
-    </div>
+    <header class="pure-g" id="banner-header">
+      <div class="pure-u-1" id="banner">
+        <img
+          src="./assets/images/news-icon-white-transparent.png"
+          id="banner-icon"
+        />
+        <h1 id="banner-text">goodnewsly</h1>
+      </div>
+
+      <nav class="pure-u-1" id="banner-menu">
+        <a href="#about">About</a>
+        <a href="#purpose">Purpose</a>
+      </nav>
+    </header>
+
+    <section class="pure-g" id="main-content">
+      <div class="pure-u-1 pure-u-sm-1-4" id="search-column">
+        <div class="pure-u-1 search-type" id="search-type-current">
+          <h2>Search Current News</h2>
+          <button
+            class="pure-button pure-button-primary"
+            id="search-current-news-button"
+          >
+            Search Current News
+          </button>
+        </div>
+
+        <div class="pure-u-1 search-type" id="search-type-keyword">
+          <h2>Search by Keyword</h2>
+          <input
+            type="text"
+            id="search-keyword-input"
+            placeholder="enter search..."
+            name="keyword"
+          />
+          <button
+            class="pure-button pure-button-primary"
+            id="search-keyword-button"
+          >
+            Search
+          </button>
+        </div>
+
+        <div class="pure-u-1 search-type" id="search-type-category">
+          <h2 class="search-category">Search by Category</h2>
+
+          <div class="search-categories">
+            <select
+              class="search-category-options"
+              multiple="multiple"
+              name="categories[]"
+            >
+              <option value="Sports">Sports</option>
+              <option value="Programming">Programming</option>
+              <option value="Regional">Regional</option>
+              <option value="Technology">Technology</option>
+              <option value="Lifestyle">Lifestyle</option>
+              <option value="Business">Business</option>
+              <option value="Science">Science</option>
+              <option value="Entertainment">Entertainment</option>
+              <option value="World">World</option>
+              <option value="Finance">Finance</option>
+              <option value="Education">Education</option>
+              <option value="Politics">Politics</option>
+              <option value="Health">Health</option>
+              <option value="Food">Food</option>
+              <option value="Gaming">Gaming</option>
+            </select>
+          </div>
+
+          <button
+            class="pure-button pure-button-primary"
+            id="search-by-categories-button"
+          >
+            Search by category
+          </button>
+        </div>
+
+        <div class="pure-u-1 search-type" id="search-type-force-error">
+          <h2>TESTING - Force error</h2>
+          <button
+            class="pure-button pure-button-primary"
+            id="search-force-error-button"
+          >
+            Force Error Response
+          </button>
+        </div>
+      </div>
+
+      <div class="pure-u1-1 pure-u-sm-3-4" id="search-results">
+        <div id="search-results-column">
+          <!-- this div is what we display when page loads, before the first user search-->
+          <div id="waiting-for-user-action">
+            <img
+              id="waiting-for-user-action-image"
+              src="./assets/images/good-news-newspaper.png"
+            />
+            <h2 id="waiting-for-user-action-text">
+              Start a search and find some good news!
+            </h2>
+          </div>
+
+          <!-- TODO need a div here to display while waiting for a search to return -->
+          <div id="waiting-for-news-animation-holder">
+            <lottie-player
+              id="news-roll"
+              src="https://assets7.lottiefiles.com/datafiles/98a3d0add75fc3c86f6d6f9b148c111e/Newspaper animation.json"
+              background="transparent"
+              speed="1"
+              style="width: 300px; height: 300px"
+              loop
+              autoplay
+            ></lottie-player>
+            <h2 id="waiting-for-news-text">Good news is on the way...</h2>
+          </div>
+
+          <!-- this div is displayed after a search successfully completes-->
+          <ul id="news-article-list">
+            <!-- news articles from 3rd party API will be dynamially inserted here -->
+          </ul>
+
+          <!-- this div is displayed after a search completes with an error -->
+          <div id="search-returned-error">
+            <img
+              id="search-returned-error-image"
+              src="./assets/images/bicycle-crash.jpeg"
+            />
+            <h2 id="search-returned-error-text">
+              Uh oh! something went wrong while delivering your news!
+            </h2>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="pure-g" id="about">
+      <div class="pure-u-1 pure-u-sm-1-4" id="about-title">
+        <h2>About</h2>
+      </div>
+      <div class="pure-u-1 pure-u-sm-3-4" id="about-content">
+        <p>
+          In recent times, the world has seen a big number of bad news: 2020 was
+          a tough year with its COVID-19 pandemic, lockdown, and stress. Apart
+          from that, news articles tend to draw readers' attention to negative
+          sides of the situation rather than positive ones
+          (https://www.nytimes.com/2021/03/24/world/covid-coverage-by-the-us-national-media-is-an-outlier-a-study-finds.html).
+          Goodnewsly is a tool which serves to make good news easier to find so
+          that it does not seem like the world is only facing problems.
+        </p>
+      </div>
+    </section>
+
+    <section class="pure-g" id="purpose">
+      <div class="pure-u-1 pure-u-sm-1-4" id="purpose-title">
+        <h2>Purpose</h2>
+      </div>
+      <div class="pure-u-1 pure-u-sm-3-4" id="purpose-content">
+        <p>
+          Goodnewsly is a tool which helps you find the most positive stories on
+          the topic you are interested in. A few recent studies have found that
+          news are overwhelmingly negative, and hence, by absorbing too much
+          information from popular news sources, Americans often damage their
+          mental health as a long-term effect. Goodnewsly will help you find a
+          way in a news world: choose a topic, add a category, input the key
+          word and enjoy the most recent positive stories!
+        </p>
+      </div>
+    </section>
+
+    <footer class="pure-g" id="footer">
+      <div class="pure-g-u-1" id="footer-row">
+        <div id="credits">
+          <h4>Creators:</h4>
+          <h5>Bryan "godwinbw" Godwin</h5>
+          <h5>Mark "marksmoore" Moore</h5>
+          <h5>Timur "Tim-rt" Kuramshin</h5>
+          <div id="footer-copyright">&copy; 2021 <span>goodnewsly</span></div>
+        </div>
+      </div>
+    </footer>
+
     <!-- we are using jquery in this project -->
     <script
       src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
       integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
       crossorigin="anonymous"
     ></script>
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="./assets/js/script.js"></script>
   </body>
 </html>
