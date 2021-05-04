@@ -410,23 +410,18 @@ var convertGoodnewsScoreToIcon = function (goodnewsscore) {
 if (goodnewsscore >= 0.6) {
 return "./assets/images/positive-high.png";
 }
-
 else if (goodnewsscore >= 0.2) {
     return "./assets/images/positive-medium.png";
 }
-
 else if (goodnewsscore >= -0.2) {
     return "./assets/images/neutral.png";
 }
-
 else if (goodnewsscore >= -0.6) {
     return "./assets/images/negative-medium.png";
 }
-
 else if (goodnewsscore >= -1.0) {
     return "./assets/images/negative-high.png";
 }
-
 };
 
 var generateNewsArticles = function (news) {
