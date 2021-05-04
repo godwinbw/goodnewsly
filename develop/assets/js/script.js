@@ -529,6 +529,7 @@ $("#search-by-categories-button").on("click", newsMultiCategorySearchClicked);
 $(document).ready(function () {
   $(".search-category-options").select2({
     placeholder: "select one or more categories...",
+    width: "100%",
   });
 
   // disable the category selection button

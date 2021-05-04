@@ -110,6 +110,7 @@
 
       <div class="pure-u1-1 pure-u-sm-3-4" id="search-results">
         <div id="search-results-column">
+          <!-- this div is what we display when page loads, before the first user search-->
           <div id="waiting-for-user-action">
             <img
               id="waiting-for-user-action-image"
@@ -120,9 +121,23 @@
             </h2>
           </div>
 
+          <!-- TODO need a div here to display while waiting for a search to return -->
+
+          <!-- this div is displayed after a search successfully completes-->
           <ul id="news-item-list">
             <!-- news articles from 3rd party API will be dynamially inserted here -->
           </ul>
+
+          <!-- this div is displayed after a search completes with an error -->
+          <div id="search-returned-error">
+            <img
+              id="search-returned-error-image"
+              src="./assets/images/bicycle-crash.jpeg"
+            />
+            <h2 id="search-returned-error-text">
+              Uh oh! something went wrong while delivering your news!
+            </h2>
+          </div>
         </div>
       </div>
     </section>
