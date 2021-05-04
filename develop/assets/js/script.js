@@ -491,11 +491,40 @@ var newsMultiCategorySearchClicked = function () {
     });
 };
 
+var simulateError = function () {
+  return new Promise(function (resolve, reject) {
+    //wait 5 seconds, then reject with an error
+    setTimeout(
+      reject,
+      5000,
+      getErrorStatus("Simulated Error", "This was a simulated error")
+    );
+  });
+};
+
+var newsForceErrorClicked = function () {
+  console.log("=========================================");
+  console.log("newsForceErrorClicked");
+
+  simulateError()
+    .then(function () {
+      //this will never happen
+    })
+    .catch(function (error) {
+      console.log("...error returned!");
+    })
+    .finally(function () {
+      console.log("=========================================");
+    });
+};
+
 //////////////////////
 ////
 ////   SETUP OUR EVENT HANDLERS & PAGE INITIALIZATION
 ////
 ///////////////////////
+
+// INITALIZE SEARCH RESULTS
 
 /// SETUP AND INITIALIZE CURRENT NEWS SEARCH
 
@@ -545,3 +574,6 @@ $(document).ready(function () {
     }
   });
 });
+
+/// SETUP AND INITIALISE FORCE ERROR SEARCH
+$("#search-force-error-button").on("click", newsForceErrorClicked);
