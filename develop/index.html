@@ -58,11 +58,10 @@
 
         <div class="pure-u-1 search-type" id="search-type-keyword">
           <h2>Search by Keyword</h2>
-          <h3 class="search-title">Search for:</h3>
           <input
             type="text"
-            id="search-keyword"
-            placeholder="enter keywords"
+            id="search-keyword-input"
+            placeholder="enter search..."
             name="keyword"
           />
           <button
@@ -75,15 +74,6 @@
 
         <div class="pure-u-1 search-type" id="search-type-category">
           <h2 class="search-category">Search by Category</h2>
-
-          <!--
-          <input
-            type="text"
-            id="search-categories"
-            placeholder="choose categories"
-            name="categories"
-          />
-          -->
 
           <div class="search-categories">
             <select
@@ -120,93 +110,18 @@
 
       <div class="pure-u1-1 pure-u-sm-3-4" id="search-results">
         <div id="search-results-column">
-          <h2>Search Results will go here</h2>
-          <ul>
-            <li class="news-item">
-              <div class="article">
-                <img
-                  class="article-image"
-                  src="https://cdn.theathletic.com/app/uploads/2021/04/29132522/Draft_Grades-1024x683.jpg"
-                />
-                <img
-                  class="article-api-face"
-                  src="./assets/images/positive-high.png"
-                />
-                <a
-                  href="https://theathletic.com/2556630/2021/04/30/2021-nfl-draft-grades-for-every-round-2-and-3-pick/"
-                  >2021 NFL Draft grades for every Round 2 and 3 pick:
-                  Buccaneers make a mistake with Kyle Trask</a
-                >
-              </div>
-            </li>
-            <li class="news-item">
-              <div class="article">
-                <img
-                  class="article-image"
-                  src="https://cdn.theathletic.com/app/uploads/2021/04/29132522/Draft_Grades-1024x683.jpg"
-                />
-                <img
-                  class="article-api-face"
-                  src="./assets/images/positive-medium.png"
-                />
-                <a
-                  href="https://theathletic.com/2556630/2021/04/30/2021-nfl-draft-grades-for-every-round-2-and-3-pick/"
-                  >2021 NFL Draft grades for every Round 2 and 3 pick:
-                  Buccaneers make a mistake with Kyle Trask</a
-                >
-              </div>
-            </li>
-            <li class="news-item">
-              <div class="article">
-                <img
-                  class="article-image"
-                  src="https://cdn.theathletic.com/app/uploads/2021/04/29132522/Draft_Grades-1024x683.jpg"
-                />
-                <img
-                  class="article-api-face"
-                  src="./assets/images/neutral.png"
-                />
-                <a
-                  href="https://theathletic.com/2556630/2021/04/30/2021-nfl-draft-grades-for-every-round-2-and-3-pick/"
-                  >2021 NFL Draft grades for every Round 2 and 3 pick:
-                  Buccaneers make a mistake with Kyle Trask</a
-                >
-              </div>
-            </li>
-            <li class="news-item">
-              <div class="article">
-                <img
-                  class="article-image"
-                  src="https://cdn.theathletic.com/app/uploads/2021/04/29132522/Draft_Grades-1024x683.jpg"
-                />
-                <img
-                  class="article-api-face"
-                  src="./assets/images/negative-medium.png"
-                />
-                <a
-                  href="https://theathletic.com/2556630/2021/04/30/2021-nfl-draft-grades-for-every-round-2-and-3-pick/"
-                  >2021 NFL Draft grades for every Round 2 and 3 pick:
-                  Buccaneers make a mistake with Kyle Trask</a
-                >
-              </div>
-            </li>
-            <li class="news-item">
-              <div class="article">
-                <img
-                  class="article-image"
-                  src="https://cdn.theathletic.com/app/uploads/2021/04/29132522/Draft_Grades-1024x683.jpg"
-                />
-                <img
-                  class="article-api-face"
-                  src="./assets/images/negative-high.png"
-                />
-                <a
-                  href="https://theathletic.com/2556630/2021/04/30/2021-nfl-draft-grades-for-every-round-2-and-3-pick/"
-                  >2021 NFL Draft grades for every Round 2 and 3 pick:
-                  Buccaneers make a mistake with Kyle Trask</a
-                >
-              </div>
-            </li>
+          <div id="waiting-for-user-action">
+            <img
+              id="waiting-for-user-action-image"
+              src="./assets/images/good-news-newspaper.png"
+            />
+            <h2 id="waiting-for-user-action-text">
+              Start a search and find some good news!
+            </h2>
+          </div>
+
+          <ul id="news-item-list">
+            <!-- news articles from 3rd party API will be dynamially inserted here -->
           </ul>
         </div>
       </div>

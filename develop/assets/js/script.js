@@ -301,17 +301,28 @@ var sanitizeKeywordQuery = function (keywordQuery) {
   /// and remove any special characters
 
   // first, replace multiple consecutive whitespace with a "+"
-  var keywordSpacesReplaced = keywordQuery.replace(/\s\s+/g, "+");
+  var keywordMultipleSpacesReplaced = keywordQuery.replace(/\s\s+/g, " ");
 
-  var keywordSpecialCharsReplaced = keywordSpacesReplaced.replace(
+  var keywordSpecialCharsReplaced = keywordMultipleSpacesReplaced.replace(
     /[&\/\\#,+()$~%.'":*?<>{}]/g,
     ""
   );
 
-  //console.log("original keywords -> " + keywordQuery);
-  //console.log("new keywords      -> " + keywordSpecialCharsReplaced);
+  var keywordsInsertPlusSeparator = keywordSpecialCharsReplaced.replace(
+    /\s/g,
+    "+"
+  );
 
-  return keywordSpecialCharsReplaced;
+  //console.log("original keywords -> " + keywordQuery);
+  //console.log(
+  //  "after multiple spaces replaced -> " + keywordMultipleSpacesReplaced
+  //);
+  //console.log(
+  //  "after special chars stripped      -> " + keywordSpecialCharsReplaced
+  //);
+  //console.log("after plus sign inserted -> " + keywordsInsertPlusSeparator);
+
+  return keywordsInsertPlusSeparator;
 };
 ///
 /// CALL THESE FUNCTIONS TO USE THE APIs
@@ -357,9 +368,12 @@ var getCurrentNewsAndSentimentFromApiByCategory = function (categoryArray) {
   return new Promise(function (resolve, reject) {
     console.log("---- PROMISE START ----------------------");
     console.log("getCurrentNewsAndSentimentFromApiByCategory");
-    console.log("categories -> " + categoryArray.join());
 
-    getNews(currentsApi.getCategoryQuery(categoryArray.join()))
+    var categoryQuery = categoryArray.join("+");
+
+    console.log("categories -> " + categoryQuery);
+
+    getNews(currentsApi.getCategoryQuery(categoryQuery))
       .then(function (result) {
         console.log("---- PROMISE RESOLVED ----------------------");
         resolve(result);
@@ -413,7 +427,7 @@ var getCurrentNewsAndSentimentFromApiByKeywordAndCategory = function (
 ////
 //// -----------------------------------------------------
 
-var newsButtonClicked = function () {
+var newsCurrentButtonClicked = function () {
   console.log("=========================================");
   console.log("newsButtonClicked");
   getCurrentNewsAndSentimentFromApi()
@@ -432,15 +446,18 @@ var newsButtonClicked = function () {
 var newsKeywordSearchClicked = function () {
   console.log("=========================================");
   console.log("newsKeywordSearchClicked");
-  getCurrentNewsAndSentimentFromApiByKeyword("basketball")
+
+  var keywordSearch = $("#search-keyword-input").val();
+
+  getCurrentNewsAndSentimentFromApiByKeyword(keywordSearch)
     .then(function (result) {
       console.log(result);
-      console.log("newsButtonClicked SUCCESS");
+      console.log("newsKeywordSearchClicked SUCCESS");
       console.log("=========================================");
     })
     .catch(function (error) {
       console.log(error);
-      console.log("newsButtonClicked ERROR");
+      console.log("newsKeywordSearchClicked ERROR");
       console.log("=========================================");
     });
 };
@@ -476,27 +493,42 @@ var newsMultiCategorySearchClicked = function () {
 
 //////////////////////
 ////
-////   Category selection start
+////   SETUP OUR EVENT HANDLERS & PAGE INITIALIZATION
 ////
 ///////////////////////
 
-/// these are bindings to button clicked handlers;
+/// SETUP AND INITIALIZE CURRENT NEWS SEARCH
 
 // get news button is clicked
-$("#news-button").on("click", newsButtonClicked);
+$("#search-current-news-button").on("click", newsCurrentButtonClicked);
+
+/// SETUP AND INTIALIZE KEYWORD SEARCH
 
 // keyword search is clicked
-$("#news-keyword-search").on("click", newsKeywordSearchClicked);
+$("#search-keyword-button").on("click", newsKeywordSearchClicked);
 
-// category search
+// disable the keyword search button initially
+$("#search-keyword-button").prop("disabled", true);
+
+// setup the onkeyup handler for the keyword input
+$("#search-keyword-input").on("keyup", function () {
+  var keywordSearch = $("#search-keyword-input").val();
+  if (keywordSearch && keywordSearch.length > 0) {
+    $("#search-keyword-button").prop("disabled", false);
+  } else {
+    $("#search-keyword-button").prop("disabled", true);
+  }
+});
+
+//// SETUP AND INITALIZE CATEGORY SEARCH
+
 $("#search-by-categories-button").on("click", newsMultiCategorySearchClicked);
 
-//console.log
+//we want to wait to initialize the select2 library for the category search
+//until after the document has finished loading
 $(document).ready(function () {
-  console.log("before activation select2");
-
   $(".search-category-options").select2({
-    placeholder: "Select one or more categories...",
+    placeholder: "select one or more categories...",
   });
 
   // disable the category selection button
@@ -504,8 +536,6 @@ $(document).ready(function () {
 
   // bind a function to check if we should enable or disable the button every time the category select box changes
   $(".search-category-options").on("change", function (e) {
-    console.log("category select changed...");
-
     var categoriesSelected = $(".search-category-options").select2("data");
     if (categoriesSelected && categoriesSelected.length > 0) {
       $("#search-by-categories-button").prop("disabled", false);
@@ -513,6 +543,4 @@ $(document).ready(function () {
       $("#search-by-categories-button").prop("disabled", true);
     }
   });
-
-  console.log("after activation select2");
 });
