@@ -11,7 +11,7 @@ var getCurrentNewsAndSentiment = function () {
   return new Promise(function (resolve, reject) {
     var currentNewsAndSentimentKey = "mostRecentCurrentNewsAndSentimentFromApi";
     var useAPI = true;
-    var rateLimit = 20; //will use 20 seconds for testing, will use 600 seconds for production
+    var rateLimit = 600; //will use 20 seconds for testing, will use 600 seconds for production
     var recentSnapshot = JSON.parse(
       localStorage.getItem(currentNewsAndSentimentKey)
     );
@@ -400,6 +400,68 @@ var getCurrentNewsAndSentimentFromApi = function () {
   });
 };
 
+var convertGoodnewsScoreToIcon = function (goodnewsscore) {
+
+//  0.6 and 1 -> positive high
+//  0.2 to 0.6 -> positive medium
+//  -0.2 to 0.2 -> neutral
+//  -0.6 to -0.2 -> negative medium
+//  -1.0 to -0.6 - > negative high
+if (goodnewsscore >= 0.6) {
+return "./assets/images/positive-high.png";
+}
+
+else if (goodnewsscore >= 0.2) {
+    return "./assets/images/positive-medium.png";
+}
+
+else if (goodnewsscore >= -0.2) {
+    return "./assets/images/neutral.png";
+}
+
+else if (goodnewsscore >= -0.6) {
+    return "./assets/images/negative-medium.png";
+}
+
+else if (goodnewsscore >= -1.0) {
+    return "./assets/images/negative-high.png";
+}
+
+};
+
+var generateNewsArticles = function (news) {
+    console.log("startiing to generate news articles");
+    $(".news-article-list").empty();
+
+    var resultsArray = [];
+
+
+      for(i = 0; i < news.news.length; i++){
+          var taskLi = $("<li>").addClass("news-item");
+          var taskDiv = $("<div>").addClass("article");
+          var taskP = $("<p>")
+              .addClass("m-1")
+              .text(news.news[i].title);
+            var newsImage = $("<img>")
+            .attr('src', news.news[i].image)
+            .width("30px")
+            .height("30px");
+            var urlLink = $("<a>")
+            .attr('src', news.news[i].url);
+          var sentimentImage = $("<img>")
+          .width("30px")
+          .height("30px")
+          .attr('src',convertGoodnewsScoreToIcon(news.news[i].good_news_score));
+          taskDiv.append(sentimentImage);
+          taskDiv.append(taskP);
+          taskDiv.append(newsImage);
+          taskDiv.append(urlLink);
+          taskLi.append(taskDiv);
+          $(".news-article-list").append(taskLi);
+      }
+
+};
+
 var getCurrentNewsAndSentimentFromApiByKeyword = function (keywordQuery) {
   return new Promise(function (resolve, reject) {
     console.log("---- PROMISE START ----------------------");
@@ -490,6 +552,8 @@ var newsButtonClicked = function () {
     .then(function (news) {
       console.log("return from getCurrentNewsAndSentiment with news");
       console.log(news);
+      generateNewsArticles(news);
+
       console.log("============================");
     })
     .catch(function (error) {
