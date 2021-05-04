@@ -93,7 +93,7 @@ body {
   margin: 0 auto 150px auto;
   flex-direction: column;
 }
-.search-category-options a {
+.search-category-options option {
   margin: 4px 8px;
   display: inline-block;
   word-wrap: break-word;
@@ -245,7 +245,6 @@ h5 {
     background-color:#717de6;
     overflow: hidden;
   }
-  
   .topnav a {
     float: left;
     display: block;

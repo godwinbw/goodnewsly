@@ -545,3 +545,4 @@ $("#news-keyword-and-multi-category-search").on(
   "click",
   newsKeywordAndMultiCategorySearchClicked
 );
+$(".dropdown-content").chosen();

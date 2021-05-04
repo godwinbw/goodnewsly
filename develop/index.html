@@ -69,31 +69,40 @@
         </div>
 
         <div class="pure-u-1 search-type" id="search-category">
-          <h2>Search by Category goes here</h2>
+            <h2 class="search-category">Search by Category goes here</h2>
+            <input
+            type="text"
+            id="search-categories"
+            placeholder="choose categories"
+            name="categories"
+          />
+          <button
+            class="pure-button pure-button-primary"
+            id="search-by-categories-button"
+          >
+            Search by category
+          </button>
           <div class="search-categories">
             <div class="search-category-options">
                 <div class="topnav" id="myTopnav">
                     <div class="dropdown">
-                      <button class="dropbtn">Choose a category
-                        <i class="fa fa-caret-down"></i>
-                      </button>
-                      <div class="dropdown-content">
-                        <a href="#">Sports</a>
-                        <a href="#">Programming</a>
-                        <a href="#">Regional</a>
-                        <a href="#">Technology</a>
-                        <a href="#">Lifestyle</a>
-                        <a href="#">Business</a>
-                        <a href="#">Science</a>
-                        <a href="#">Entertainment</a>
-                        <a href="#">World</a>
-                        <a href="#">Finance</a>
-                        <a href="#">Education</a>
-                        <a href="#">Politics</a>
-                        <a href="#">Health</a>
-                        <a href="#">Food</a>
-                        <a href="#">Gaming</a>
-                      </div>
+                      <select class="dropdown-content" class="my_select_box chosen-rtl">
+                        <option value="1">Sports</option>
+                        <option value="2">Programming</option>
+                        <option value="3">Regional</option>
+                        <option value="4">Technology</option>
+                        <option value="5">Lifestyle</option>
+                        <option value="6">Business</option>
+                        <option value="7">Science</option>
+                        <option value="8">Entertainment</option>
+                        <option value="9">World</option>
+                        <option value="10">Finance</option>
+                        <option value="11">Education</option>
+                        <option value="12">Politics</option>
+                        <option value="13">Health</option>
+                        <option value="14">Food</option>
+                        <option value="15">Gaming</option>
+                      </select>
                     </div>
                     <a href="javascript:void(0);" class="icon" onclick="myFunction()">&#9776;</a>
                   </div>
@@ -238,6 +247,7 @@
       integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
       crossorigin="anonymous"
     ></script>
+    <script src="https://cdnjs.com/libraries/chosen"></script>
     <script src="./assets/js/script.js"></script>
   </body>
 </html>
