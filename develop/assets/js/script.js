@@ -41,7 +41,7 @@ var getCurrentNewsAndSentiment = function () {
         .then(function (result) {
           console.log("we got data from the API");
           console.log(result);
-          // TODO  - save to local storage.  also need to same a date/timestamp of when the api was called
+
           var lastApiCallTimestamp = new Date().toLocaleString();
 
           var newsSnapshot = {};
