@@ -52,14 +52,14 @@ var getCurrentNewsAndSentiment = function () {
             JSON.stringify(newsSnapshot)
           );
 
-          resolve(newsSnapshot);
+          resolve(newsSnapshot.news);
         })
         .catch(function (error) {
           reject(error);
         });
     } else {
       console.log("we aren't going to use the API");
-      resolve(recentSnapshot);
+      resolve(recentSnapshot.news);
     }
   });
 };
@@ -412,60 +412,68 @@ var getCurrentNewsAndSentimentFromApi = function () {
 };
 
 var convertGoodnewsScoreToIcon = function (goodnewsscore) {
+  //  0.6 and 1 -> positive high
+  //  0.2 to 0.6 -> positive medium
+  //  -0.2 to 0.2 -> neutral
+  //  -0.6 to -0.2 -> negative medium
+  //  -1.0 to -0.6 - > negative high
 
-//  0.6 and 1 -> positive high
-//  0.2 to 0.6 -> positive medium
-//  -0.2 to 0.2 -> neutral
-//  -0.6 to -0.2 -> negative medium
-//  -1.0 to -0.6 - > negative high
-if (goodnewsscore >= 0.6) {
-return "./assets/images/positive-high.png";
-}
-else if (goodnewsscore >= 0.2) {
+  //TODO need to add a return for when goodnewsscore is -10
+
+  if (goodnewsscore >= 0.6) {
+    return "./assets/images/positive-high.png";
+  } else if (goodnewsscore >= 0.2) {
     return "./assets/images/positive-medium.png";
-}
-else if (goodnewsscore >= -0.2) {
+  } else if (goodnewsscore >= -0.2) {
     return "./assets/images/neutral.png";
-}
-else if (goodnewsscore >= -0.6) {
+  } else if (goodnewsscore >= -0.6) {
     return "./assets/images/negative-medium.png";
-}
-else if (goodnewsscore >= -1.0) {
+  } else if (goodnewsscore >= -1.0) {
     return "./assets/images/negative-high.png";
-}
+  }
 };
 
 var generateNewsArticles = function (news) {
-    console.log("startiing to generate news articles");
-    $(".news-article-list").empty();
+  console.log("startiing to generate news articles");
 
-    var resultsArray = [];
+  $("#news-article-list").empty();
 
+  var resultsArray = [];
 
-      for(i = 0; i < news.news.length; i++){
-          var taskLi = $("<li>").addClass("news-item");
-          var taskDiv = $("<div>").addClass("article");
-          var taskP = $("<p>")
-              .addClass("m-1")
-              .text(news.news[i].title);
-            var newsImage = $("<img>")
-            .attr('src', news.news[i].image)
-            .width("30px")
-            .height("30px");
-            var urlLink = $("<a>")
-            .attr('src', news.news[i].url);
-          var sentimentImage = $("<img>")
-          .width("30px")
-          .height("30px")
-          .attr('src',convertGoodnewsScoreToIcon(news.news[i].good_news_score));
-          taskDiv.append(sentimentImage);
-          taskDiv.append(taskP);
-          taskDiv.append(newsImage);
-          taskDiv.append(urlLink);
-          taskLi.append(taskDiv);
-          $(".news-article-list").append(taskLi);
-      }
+  for (i = 0; i < news.length; i++) {
+    var newsImageUrl = news[i].image;
+    var sentimentUrl = convertGoodnewsScoreToIcon(news[i].good_news_score);
+    var newsTitle = news[i].title;
+    var linkUrl = news[i].url;
 
+    console.log(">>> item " + i);
+    console.log("    title -> " + newsTitle);
+    console.log("    imageUrl -> " + newsImageUrl);
+    console.log("    sentimentUrl -> " + sentimentUrl);
+    console.log("    linkUrl -> " + linkUrl);
+
+    var taskLi = $("<li>").addClass("news-item");
+    var taskDiv = $("<div>").addClass("article");
+    var taskP = $("<p>").addClass("m-1").text(newsTitle);
+    var newsImage = $("<img>")
+      .attr("src", newsImageUrl)
+      .width("30px")
+      .height("30px");
+    var urlLink = $("<a>").attr("src", linkUrl);
+    var sentimentImage = $("<img>")
+      .width("30px")
+      .height("30px")
+      .attr("src", sentimentUrl);
+
+    taskDiv.append(sentimentImage);
+    taskDiv.append(taskP);
+    taskDiv.append(newsImage);
+    taskDiv.append(urlLink);
+
+    taskLi.append(taskDiv);
+
+    $("#news-article-list").append(taskLi);
+  }
 };
 
 var getCurrentNewsAndSentimentFromApiByKeyword = function (keywordQuery) {
@@ -542,11 +550,46 @@ var getCurrentNewsAndSentimentFromApiByKeywordAndCategory = function (
 ////
 ////------------------------------------------------------
 
+////------------------------------------------------------
+////
+////  SCREEN UPDATE SECTION START
+////
+////   functions to control the state of the search results area
+////------------------------------------------------------
+
+var showWaitingForUserAction = function () {
+  $("#waiting-for-user-action").show();
+  $("#waiting-for-news-animation-holder").hide();
+  $("#news-article-list").hide();
+  $("#search-returned-error").hide();
+};
+
+var showWaitingForNews = function () {
+  $("#waiting-for-user-action").hide();
+  $("#waiting-for-news-animation-holder").show();
+  $("#news-article-list").hide();
+  $("#search-returned-error").hide();
+};
+
+var showNewsResultsSuccess = function () {
+  $("#waiting-for-user-action").hide();
+  $("#waiting-for-news-animation-holder").hide();
+  $("#news-article-list").show();
+  $("#search-returned-error").hide();
+};
+
+var showNewsResultsError = function () {
+  $("#waiting-for-user-action").hide();
+  $("#waiting-for-news-animation-holder").hide();
+  $("#news-article-list").hide();
+  $("#search-returned-error").show();
+};
+
 //// -----------------------------------------------------
 ////
-////  TEST SECTION START
+////  GET NEWS BUTTON HANDLER SECTION
 ////
-////  these functions test the api calls with various input data
+////  these functions use the api calls to get current news
 ////
 //// -----------------------------------------------------
 
@@ -556,23 +599,21 @@ var newsCurrentButtonClicked = function () {
     "news button clicked.  Here is where we want to turn on the animation."
   );
   //Here is where we want to turn on the animation
-  $("#waiting-for-news-animation-holder").show();
+  showWaitingForNews();
+
   getCurrentNewsAndSentiment()
     .then(function (news) {
       console.log("return from getCurrentNewsAndSentiment with news");
       console.log(news);
       generateNewsArticles(news);
-
+      showNewsResultsSuccess();
       console.log("============================");
     })
     .catch(function (error) {
       console.log("return from getCurrentNewsAndSentiment with error");
       console.log(error);
+      showNewsResultsError();
       console.log("============================");
-    })
-    .finally(function () {
-      console.log("Here is where we want to turn off the animation.");
-      $("#waiting-for-news-animation-holder").hide();
     });
 };
 
@@ -582,14 +623,18 @@ var newsKeywordSearchClicked = function () {
 
   var keywordSearch = $("#search-keyword-input").val();
 
+  showWaitingForNews();
   getCurrentNewsAndSentimentFromApiByKeyword(keywordSearch)
-    .then(function (result) {
-      console.log(result);
+    .then(function (news) {
+      console.log(news);
+      generateNewsArticles(news);
+      showNewsResultsSuccess();
       console.log("newsKeywordSearchClicked SUCCESS");
       console.log("=========================================");
     })
     .catch(function (error) {
       console.log(error);
+      showNewsResultsError();
       console.log("newsKeywordSearchClicked ERROR");
       console.log("=========================================");
     });
@@ -598,6 +643,8 @@ var newsKeywordSearchClicked = function () {
 var newsMultiCategorySearchClicked = function () {
   console.log("=========================================");
   console.log("newsMultiCategorySearchClicked");
+
+  showWaitingForNews();
 
   //get values from category select
   var categoriesSelected = $(".search-category-options").select2("data");
@@ -612,13 +659,16 @@ var newsMultiCategorySearchClicked = function () {
   $(".search-category-options").val(null).trigger("change");
 
   getCurrentNewsAndSentimentFromApiByCategory(categoryArray)
-    .then(function (result) {
-      console.log(result);
+    .then(function (news) {
+      console.log(news);
+      generateNewsArticles(news);
+      showNewsResultsSuccess();
       console.log("newsMultiCategorySearchClicked SUCCESS");
       console.log("=========================================");
     })
     .catch(function (error) {
       console.log(error);
+      showNewsResultsError();
       console.log("newsMultiCategorySearchClicked ERROR");
       console.log("=========================================");
     });
@@ -639,12 +689,15 @@ var newsForceErrorClicked = function () {
   console.log("=========================================");
   console.log("newsForceErrorClicked");
 
+  showWaitingForNews();
+
   simulateError()
     .then(function () {
       //this will never happen
     })
     .catch(function (error) {
       console.log("...error returned!");
+      showNewsResultsError();
     })
     .finally(function () {
       console.log("=========================================");
@@ -652,7 +705,6 @@ var newsForceErrorClicked = function () {
 };
 
 /// need to hide the news-roll animation on first load
-$("#waiting-for-news-animation-holder").hide();
 
 //////////////////////
 ////
@@ -660,9 +712,8 @@ $("#waiting-for-news-animation-holder").hide();
 ////
 ///////////////////////
 
-// INITALIZE SEARCH RESULTS
-
 /// SETUP AND INITIALIZE CURRENT NEWS SEARCH
+showWaitingForUserAction();
 
 // get news button is clicked
 $("#search-current-news-button").on("click", newsCurrentButtonClicked);

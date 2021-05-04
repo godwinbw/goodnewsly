@@ -132,9 +132,21 @@
           </div>
 
           <!-- TODO need a div here to display while waiting for a search to return -->
+          <div id="waiting-for-news-animation-holder">
+            <lottie-player
+              id="news-roll"
+              src="https://assets7.lottiefiles.com/datafiles/98a3d0add75fc3c86f6d6f9b148c111e/Newspaper animation.json"
+              background="transparent"
+              speed="1"
+              style="width: 300px; height: 300px"
+              loop
+              autoplay
+            ></lottie-player>
+            <h2 id="waiting-for-news-text">Good news is on the way...</h2>
+          </div>
 
           <!-- this div is displayed after a search successfully completes-->
-          <ul id="news-item-list">
+          <ul id="news-article-list">
             <!-- news articles from 3rd party API will be dynamially inserted here -->
           </ul>
 

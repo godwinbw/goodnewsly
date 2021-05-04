@@ -178,6 +178,28 @@ body {
   text-align: center;
 }
 
+#waiting-for-news-animation-holder {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 10px;
+  justify-content: center;
+  align-items: center;
+}
+
+#news-roll {
+  width: 500px;
+  height: 500px;
+}
+
+#waiting-for-news-text {
+  font-family: "Kanit";
+  color: var(--button-color);
+  font-size: 32px;
+  margin: 20px;
+  text-align: center;
+}
+
 .news-item {
   list-style: none;
   margin-top: 5px;
