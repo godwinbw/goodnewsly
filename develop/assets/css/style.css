@@ -205,21 +205,37 @@ body {
   list-style: none;
   margin-top: 5px;
   font-size: 22px;
+  width: 100%;
+}
+
+.news-item:hover {
+  background-color: var(--banner-end);
+  cursor: pointer;
 }
 
 .article {
   display: flex;
+  flex-direction: row;
   align-items: center;
   height: 64px;
 }
-.article-image {
-  height: 100px;
-  width: 100px;
-}
-.article-api-face {
+
+.sentiment-image {
   height: 64px;
   width: 64px;
   object-fit: contain;
+}
+
+.news-title {
+  font-size: 18px;
+  margin-left: 10px;
+  margin-right: 10px;
+  width: 75%;
+}
+
+.news-image {
+  height: 50px;
+  width: 50px;
 }
 
 #search-returned-error {
