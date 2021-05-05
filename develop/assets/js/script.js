@@ -11,7 +11,7 @@ var getCurrentNewsAndSentiment = function () {
   return new Promise(function (resolve, reject) {
     var currentNewsAndSentimentKey = "mostRecentCurrentNewsAndSentimentFromApi";
     var useAPI = true;
-    var rateLimit = 600; //will use 20 seconds for testing, will use 600 seconds for production
+    var rateLimit = 30 * 60 * 60; //will use 20 seconds for testing, will use 600 seconds for production
     var recentSnapshot = JSON.parse(
       localStorage.getItem(currentNewsAndSentimentKey)
     );
@@ -444,6 +444,10 @@ var convertGoodnewsScoreToIcon = function (goodnewsscore) {
   }
 };
 
+//var pageRedirect = function (reDirectPage) {
+//      window.location.href = "https://www.tutorialrepublic.com/";
+//};     
+
 var generateNewsArticles = function (news) {
   console.log("startiing to generate news articles");
 
@@ -463,14 +467,22 @@ var generateNewsArticles = function (news) {
     console.log("    sentimentUrl -> " + sentimentUrl);
     console.log("    linkUrl -> " + linkUrl);
 
-    var taskLi = $("<li>").addClass("news-item");
-    var taskDiv = $("<div>").addClass("article");
-    var taskP = $("<p>").addClass("m-1").text(newsTitle);
+    var taskLi = $("<li>")
+      .addClass("news-item");
+    var taskDiv = $("<div>")
+      .addClass("article");
+    var taskP = $("<p>")
+      .addClass("news-title")
+      .text(newsTitle);
     var newsImage = $("<img>")
       .attr("src", newsImageUrl)
-      .width("30px")
-      .height("30px");
-    var urlLink = $("<a>").attr("src", linkUrl);
+      .width("100px")
+      .height("55px");
+    var urlLink = $("<a>")
+      .attr("href", linkUrl)
+      .onclick(window.location.href=linkUrl)
+      .target("_blank");
+      
     var sentimentImage = $("<img>")
       .width("30px")
       .height("30px")
