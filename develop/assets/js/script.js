@@ -11,7 +11,7 @@ var getCurrentNewsAndSentiment = function () {
   return new Promise(function (resolve, reject) {
     var currentNewsAndSentimentKey = "mostRecentCurrentNewsAndSentimentFromApi";
     var useAPI = true;
-    var rateLimit = 600; //will use 20 seconds for testing, will use 600 seconds for production
+    var rateLimit = 30 * 60 * 60; //will use 20 seconds for testing, will use 600 seconds for production
     var recentSnapshot = JSON.parse(
       localStorage.getItem(currentNewsAndSentimentKey)
     );
@@ -444,6 +444,10 @@ var convertGoodnewsScoreToIcon = function (goodnewsscore) {
   }
 };
 
+//var pageRedirect = function (reDirectPage) {
+//      window.location.href = "https://www.tutorialrepublic.com/";
+//};
+
 var generateNewsArticles = function (news) {
   console.log("startiing to generate news articles");
 
@@ -457,33 +461,52 @@ var generateNewsArticles = function (news) {
     var newsTitle = news[i].title;
     var linkUrl = news[i].url;
 
-    console.log(">>> item " + i);
-    console.log("    title -> " + newsTitle);
-    console.log("    imageUrl -> " + newsImageUrl);
-    console.log("    sentimentUrl -> " + sentimentUrl);
-    console.log("    linkUrl -> " + linkUrl);
+    //console.log(">>> item " + i);
+    //console.log("    title -> " + newsTitle);
+    //console.log("    imageUrl -> " + newsImageUrl);
+    //console.log("    sentimentUrl -> " + sentimentUrl);
+    //console.log("    linkUrl -> " + linkUrl);
 
-    var taskLi = $("<li>").addClass("news-item");
-    var taskDiv = $("<div>").addClass("article");
-    var taskP = $("<p>").addClass("m-1").text(newsTitle);
-    var newsImage = $("<img>")
-      .attr("src", newsImageUrl)
-      .width("30px")
-      .height("30px");
-    var urlLink = $("<a>").attr("src", linkUrl);
+    var newsItem = $("<li>")
+      .addClass("news-item")
+      //.attr("onclick", "location.href='" + linkUrl + "'")
+      //.attr("target", "_blank");
+      .attr("onclick", "window.open('" + linkUrl + "', '_blank');return false;")
+      .attr("href", "javascript:void(0);");
+
+    var article = $("<div>").addClass("article");
+
+    var newsTitle = $("<p>").addClass("news-title").text(newsTitle);
+
+    // don't include an image if the image url is None
+    var includeNewsImage = false;
+    var newsImage;
+    if (!newsImageUrl.includes("None")) {
+      includeNewsImage = true;
+      newsImage = $("<img>")
+        .addClass("news-image")
+        .attr("src", newsImageUrl)
+        .width("100px")
+        .height("55px");
+    }
+
     var sentimentImage = $("<img>")
+      .addClass("sentiment-image")
       .width("30px")
       .height("30px")
       .attr("src", sentimentUrl);
 
-    taskDiv.append(sentimentImage);
-    taskDiv.append(taskP);
-    taskDiv.append(newsImage);
-    taskDiv.append(urlLink);
+    // put sentiment Image, articleTitle & articleImage (if it exists) in article
+    article.append(sentimentImage);
+    article.append(newsTitle);
 
-    taskLi.append(taskDiv);
+    if (includeNewsImage) {
+      article.append(newsImage);
+    }
 
-    $("#news-article-list").append(taskLi);
+    newsItem.append(article);
+
+    $("#news-article-list").append(newsItem);
   }
 };
 
