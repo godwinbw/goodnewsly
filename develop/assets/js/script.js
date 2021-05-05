@@ -241,60 +241,71 @@ var getSentimentBulk = function (news) {
             //console.log("----- Query Text ------");
             //console.log("   " + textArray.length + " items");
             //console.log("----- Sentiment Data ------");
+            //console.log(sentimentData);
             //console.log("   " + sentimentData.sentiment.length + " items");
             //console.log(sentimentData.sentiment);
             //console.log("---------------------------");
 
-            console.log(
-              "...got " + sentimentData.sentiment.length + " sentiment scores"
-            );
+            if (sentimentData.sentiment) {
+              console.log(
+                "...got " + sentimentData.sentiment.length + " sentiment scores"
+              );
 
-            // need to add sentiment data to news
-            for (var i = 0; i < sentimentData.sentiment.length; i++) {
-              //get the goodnews score for this element
-              //console.log(
-              //  "...getting goodnews score for index " +
-              //    i +
-              //   "item -> " +
-              //    JSON.stringify(sentimentData.sentiment[i])
-              //);
+              // need to add sentiment data to news
+              for (var i = 0; i < sentimentData.sentiment.length; i++) {
+                //get the goodnews score for this element
+                //console.log(
+                //  "...getting goodnews score for index " +
+                //    i +
+                //   "item -> " +
+                //    JSON.stringify(sentimentData.sentiment[i])
+                //);
 
-              goodnewsScore = getGoodNewsScore(sentimentData.sentiment[i]);
+                goodnewsScore = getGoodNewsScore(sentimentData.sentiment[i]);
 
-              // if this index exists in news, add them item and good news score to the news array
-              if (!(typeof news[i] === "undefined")) {
-                news[i].sentiment = sentimentData.sentiment[i];
-                if (goodnewsScore == -10) {
-                  news[i].good_news_score = goodnewsScore;
-                  news[i].valid_good_news_score = false;
-                } else {
-                  // this is a valid good news score
-                  news[i].good_news_score = goodnewsScore;
-                  news[i].valid_good_news_score = true;
+                // if this index exists in news, add them item and good news score to the news array
+                if (!(typeof news[i] === "undefined")) {
+                  news[i].sentiment = sentimentData.sentiment[i];
+                  if (goodnewsScore == -10) {
+                    news[i].good_news_score = goodnewsScore;
+                    news[i].valid_good_news_score = false;
+                  } else {
+                    // this is a valid good news score
+                    news[i].good_news_score = goodnewsScore;
+                    news[i].valid_good_news_score = true;
+                  }
                 }
               }
+
+              // now sort the news array by good news score
+              news.sort(function (a, b) {
+                if (a.good_news_score > b.good_news_score) {
+                  // if a > b return -1;
+                  return -1;
+                } else if (a.good_news_score < b.good_news_score) {
+                  // if a < b return 1;
+                  return 1;
+                } else {
+                  // if a = b return 0;
+                  return 0;
+                }
+              });
+
+              //console.log("----- News + Sentiment Data ------");
+              //console.log(news);
+              //console.log("----------------------------------");
+
+              // return the update news array
+              resolve(news);
+            } else {
+              // for some reason we didn't get sentiment data, likely due to exceeded API limits
+              reject(
+                getErrorStatus(
+                  "Bulk sentiment failed",
+                  "likely exceeded daily API Limit"
+                )
+              );
             }
-
-            // now sort the news array by good news score
-            news.sort(function (a, b) {
-              if (a.good_news_score > b.good_news_score) {
-                // if a > b return -1;
-                return -1;
-              } else if (a.good_news_score < b.good_news_score) {
-                // if a < b return 1;
-                return 1;
-              } else {
-                // if a = b return 0;
-                return 0;
-              }
-            });
-
-            //console.log("----- News + Sentiment Data ------");
-            //console.log(news);
-            //console.log("----------------------------------");
-
-            // return the update news array
-            resolve(news);
           });
         } else {
           // the response code was not ok
