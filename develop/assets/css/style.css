@@ -92,6 +92,8 @@ body {
 .pure-button-primary {
   border-radius: 5px;
   background-color: var(--button-color);
+  height: 100%;
+  white-space: normal;
 }
 
 #search-type-current {

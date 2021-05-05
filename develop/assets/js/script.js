@@ -460,6 +460,7 @@ var generateNewsArticles = function (news) {
     var sentimentUrl = convertGoodnewsScoreToIcon(news[i].good_news_score);
     var newsTitle = news[i].title;
     var linkUrl = news[i].url;
+    var articleTooltip = news[i].description;
 
     //console.log(">>> item " + i);
     //console.log("    title -> " + newsTitle);
@@ -472,7 +473,8 @@ var generateNewsArticles = function (news) {
       //.attr("onclick", "location.href='" + linkUrl + "'")
       //.attr("target", "_blank");
       .attr("onclick", "window.open('" + linkUrl + "', '_blank');return false;")
-      .attr("href", "javascript:void(0);");
+      .attr("href", "javascript:void(0);")
+      .attr("title", articleTooltip);
 
     var article = $("<div>").addClass("article");
 
@@ -798,3 +800,6 @@ $(document).ready(function () {
 
 /// SETUP AND INITIALISE FORCE ERROR SEARCH
 $("#search-force-error-button").on("click", newsForceErrorClicked);
+
+/// HIDE force error for final build
+$("#search-type-force-error").hide();
