@@ -11,7 +11,7 @@ var getCurrentNewsAndSentiment = function () {
   return new Promise(function (resolve, reject) {
     var currentNewsAndSentimentKey = "mostRecentCurrentNewsAndSentimentFromApi";
     var useAPI = true;
-    var rateLimit = 30 * 60 * 60; //will use 20 seconds for testing, will use 600 seconds for production
+    var rateLimit = 600; //will use 20 seconds for testing, will use 600 seconds for production
     var recentSnapshot = JSON.parse(
       localStorage.getItem(currentNewsAndSentimentKey)
     );
