@@ -216,8 +216,8 @@ body {
 .article {
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
   align-items: center;
-  height: 64px;
 }
 
 .sentiment-image {
@@ -227,6 +227,8 @@ body {
 }
 
 .news-title {
+  flex: 0 1 auto;
+  align-content: flex-start;
   font-size: 18px;
   margin-left: 10px;
   margin-right: 10px;
